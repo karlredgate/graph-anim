@@ -26,6 +26,23 @@ set radius 8
 
 graph g
 
+
+text .log
+scrollbar .sb -orient vert
+pack .sb .log -expand yes -fill both -side right
+.log conf -yscrollcommand {.sb set}
+.sb conf -command {.log yview}
+
+.log insert end "left click to create vertex.
+right click and drag to create edge between vertices.
+double left click to traverse graph.
+-----------------------------------------------------
+"
+proc log {msg} {
+    .log insert end "> $msg\n"
+    .log see end
+}
+
 set c [canvas .c]
 pack $c -expand yes -fill both
 
@@ -49,7 +66,7 @@ proc closest_oval {c x y} {
 	if { $type == "oval" } break
     }
     if { $type == "oval" } { return $item }
-    puts "Type of '$item' is '$type'"
+    log "Type of '$item' is '$type'"
     return {}
 }
 
@@ -61,19 +78,20 @@ proc grab_or_vertex {c x y} {
     set y2 [expr $y+$radius]
     set near [$c find overlapping $x1 $y1 $x2 $y2]
     if { [llength $near] > 1 } {
-	puts "More than one item near cursor"
+	log "More than one item near cursor"
 	return
     }
-    puts "Type of '$near' is '[$c type $near]'"
+    log "Type of '$near' is '[$c type $near]'"
     if { [$c type $near] != "oval" } {
 	draw_vertex $c $x $y
     } else {
-	puts "Grab should happen"
+	log "Grab should happen"
     }
 }
 
 proc draw_vertex {c x y} {
     global radius
+
     set x1 [expr $x-$radius]
     set y1 [expr $y-$radius]
     set x2 [expr $x+$radius]
@@ -94,7 +112,7 @@ proc draw_vertex {c x y} {
 
     # $label enter "$c itemconfigure $u -fill blue ; puts \"Enter: $label ($u)\""
     $label enter "$c itemconfigure $u -fill blue"
-    $label visit "puts \"visit $label (id=$u)\""
+    $label visit "log \"visit $label (id=$u)\""
     $label leave "$c itemconfigure $u -fill yellow"
     # $label leave "$c itemconfigure $u -fill yellow ; puts \"Leave: $label ($u)\""
 }
@@ -112,7 +130,7 @@ proc getvertex {c tagOrId} {
 	if { $tag == "current" } continue
 	return $tag
     }
-    puts "No vertex for $tagOrId"
+    log "No vertex for $tagOrId"
     exit
 }
 
@@ -130,12 +148,13 @@ proc startLine {c x y} {
 
 proc finishline {c x y} {
     global edge edgeU edgeV
+
     set end "$x $y"
     # set closest [$c find closest $x $y]
     set closest [closest_oval $c $x $y]
     set type    [$c type $closest]
     if { $type != "oval" } {
-	puts "Closest item is not an oval, it is a '$type'"
+	log "Closest item is not an oval, it is a '$type'"
 	$c delete $edge
 	return
     }
@@ -147,7 +166,7 @@ proc finishline {c x y} {
     set edge_cmd [$U connect [$V reference]]
     # $edge_cmd enter "$c itemconfigure $edge -fill red ; puts \"enter $edge_cmd\""
     $edge_cmd enter "$c itemconfigure $edge -fill red"
-    $edge_cmd visit "puts \"visit $edge_cmd (id=$edge)\""
+    $edge_cmd visit "log \"visit $edge_cmd (id=$edge)\""
     $edge_cmd leave "$c itemconfigure $edge -fill black"
     # $edge_cmd leave "$c itemconfigure $edge -fill black ; puts \"leave $edge_cmd\""
 }
@@ -156,7 +175,7 @@ proc DFS {c x y} {
     set closest [closest_oval $c $x $y]
     set V [getvertex $c $closest]
     set DAG [g DFS [$V reference]]
-    puts "Graph is a $DAG"
+    log "Graph is $DAG"
 }
 
 proc moveLine {c x y} {
