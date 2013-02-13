@@ -96,17 +96,31 @@ void Graph::DFS( Vertex *u ) {
 }
 
 VertexList *
-Graph::TSort( Vertex *u ) {
-    VertexList *list = 0;
+Graph::TSort() {
+    reset();
+    return TSort(root, 0);
+}
+
+VertexList *
+Graph::TSort( Vertex *u, VertexList *list ) {
+    if ( u == 0 ) {
+	// generate some error
+        return 0;
+    }
 
     acyclic = true;
+
     u->_enter_();
+
     u->discovered = true;
     u->visit();
+
     for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
 	edge->_enter_();
 	edge->_visit_();
+
         Vertex *v = edge->vertex;
+
         if ( v->discovered ) {
 	    if ( v->explored == false ) {
 		// This is a back edge
@@ -118,10 +132,19 @@ Graph::TSort( Vertex *u ) {
 	    continue;
 	}
         v->parent = u;
-        list = TSort( v );
+        list = TSort( v, list );
 	edge->_leave_();
     }
     u->explored = true;
     u->_leave_();
     return new VertexList( u, list );
+}
+
+Graph::~Graph() {
+    Vertex *v = vertices;
+    while ( v ) {
+        Vertex *u = v->next;
+	delete v;
+	v = u;
+    }
 }

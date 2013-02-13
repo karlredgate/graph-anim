@@ -64,13 +64,13 @@ public:
 	Tcl_IncrRefCount( visit_hook );
     }
 
-    void _enter_( char *script ) {
+    void _enter_( const char *script ) {
 	_enter_( Tcl_NewStringObj(script, -1) );
     }
-    void _leave_( char *script ) {
+    void _leave_( const char *script ) {
 	_leave_( Tcl_NewStringObj(script, -1) );
     }
-    void _visit_( char *script ) {
+    void _visit_( const char *script ) {
 	_visit_( Tcl_NewStringObj(script, -1) );
     }
 
@@ -82,6 +82,7 @@ class Edge;
 
 class Edge : public Traced {
 public:
+    Vertex *root;
     Vertex *vertex;
     Edge *next;
     int weight;
@@ -106,7 +107,7 @@ public:
     int serialize() { return id = serial++; }
 
     Vertex( Tcl_Interp * );
-    ~Vertex() {}
+    ~Vertex() { if ( edge ) delete edge; }
 
     virtual void visit();
     void reset();
@@ -127,16 +128,19 @@ public:
 class Graph {
 public:
     Tcl_Interp *interp;
+    Vertex *root;
     Vertex *vertices;
     bool acyclic;
 
     Graph( Tcl_Interp *interp ) : interp(interp), vertices(0) {}
-    ~Graph() {}
+    ~Graph();
 
     void add( Vertex * );
     void reset();
     void DFS( Vertex * );
-    VertexList *TSort( Vertex * );
+    void DFS();
+    VertexList *TSort( Vertex *, VertexList * );
+    VertexList *TSort();
 };
 
 class MaxHeap {
@@ -153,3 +157,8 @@ public:
         elements = new Element *[size];
     }
 };
+
+/*
+ * vim:autoindent
+ * vim:expandtab
+ */

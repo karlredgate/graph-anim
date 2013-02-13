@@ -254,7 +254,7 @@ graph_obj(
 	    return TCL_ERROR;
         }
 	g->reset();
-        VertexList *list = g->TSort( v );
+        VertexList *list = g->TSort( v, 0 );
 	if ( g->acyclic == false ) {
             Tcl_SetResult( interp, "cycle detected", TCL_STATIC );
 	    return TCL_ERROR;
