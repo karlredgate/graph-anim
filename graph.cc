@@ -73,10 +73,12 @@ void Graph::DFS( Vertex *u ) {
     u->_enter_();
     u->discovered = true;
     u->visit();
+
     for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
 	edge->_enter_();
 	edge->_visit_();
         Vertex *v = edge->vertex;
+
         if ( v->discovered ) {
 	    if ( v->explored == false ) {
 		// This is a back edge
@@ -87,10 +89,12 @@ void Graph::DFS( Vertex *u ) {
 	    edge->_leave_();
 	    continue;
 	}
+
         v->parent = u;
         DFS( v );
 	edge->_leave_();
     }
+
     u->explored = true;
     u->_leave_();
 }
