@@ -83,7 +83,7 @@ edge_obj(
         return TCL_OK;
     }
 
-    Tcl_SetResult( interp, "Unknown command for edge", TCL_STATIC );
+    Tcl_SetResult( interp, (char *)"Unknown command for edge", TCL_STATIC );
 
     return TCL_OK;
 }
@@ -175,7 +175,7 @@ vertex_obj(
         return TCL_OK;
     }
 
-    Tcl_SetResult( interp, "Unknown command for vertex", TCL_STATIC );
+    Tcl_SetResult( interp, (char *)"Unknown command for vertex", TCL_STATIC );
 
     return TCL_OK;
 }
@@ -236,9 +236,9 @@ graph_obj(
 	g->reset();
         g->DFS( v );
 	if ( g->acyclic ) {
-            Tcl_SetResult( interp, "acyclic", TCL_STATIC );
+            Tcl_SetResult( interp, (char *)"acyclic", TCL_STATIC );
 	} else {
-            Tcl_SetResult( interp, "cyclic", TCL_STATIC );
+            Tcl_SetResult( interp, (char *)"cyclic", TCL_STATIC );
 	}
         return TCL_OK;
     }
@@ -256,13 +256,13 @@ graph_obj(
 	g->reset();
         VertexList *list = g->TSort( v, 0 );
 	if ( g->acyclic == false ) {
-            Tcl_SetResult( interp, "cycle detected", TCL_STATIC );
+            Tcl_SetResult( interp, (char *)"cycle detected", TCL_STATIC );
 	    return TCL_ERROR;
 	}
         return TCL_OK;
     }
 
-    Tcl_SetResult( interp, "Unknown command for graph object", TCL_STATIC );
+    Tcl_SetResult( interp, (char *)"Unknown command for graph object", TCL_STATIC );
     return TCL_OK;
 }
 
