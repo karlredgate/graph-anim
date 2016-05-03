@@ -70,11 +70,19 @@ void Graph::reset() {
 
 void Graph::DFS( Vertex *u ) {
     acyclic = true;
+    traverse_paths( u );
+}
+
+void Graph::traverse_edges( Vertex *u ) {
+    acyclic = true;
+}
+
+void Graph::traverse_paths( Vertex *u ) {
     u->_enter_();
     u->discovered = true;
     u->visit();
 
-    for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
+    for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
 	edge->_enter_();
 	edge->_visit_();
         Vertex *v = edge->vertex;
@@ -91,7 +99,7 @@ void Graph::DFS( Vertex *u ) {
 	}
 
         v->parent = u;
-        DFS( v );
+        traverse_paths( v );
 	edge->_leave_();
     }
 
