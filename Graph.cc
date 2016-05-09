@@ -25,7 +25,7 @@
 using namespace std;
 
 #include "Traced.h"
-#include "graph.h"
+#include "Graph.h"
 
 int Vertex::serial = 0;
 
@@ -84,24 +84,24 @@ void Graph::traverse_paths( Vertex *u ) {
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
-	edge->_enter_();
-	edge->_visit_();
+        edge->_enter_();
+        edge->_visit_();
         Vertex *v = edge->vertex;
 
         if ( v->discovered ) {
-	    if ( v->explored == false ) {
-		// This is a back edge
-		cout << "Back edge found {" << dec << u->id
-		     << "," << dec << v->id << "}" << endl;
-		acyclic = false;
-	    }
-	    edge->_leave_();
-	    continue;
-	}
+            if ( v->explored == false ) {
+                // This is a back edge
+                cout << "Back edge found {" << dec << u->id
+                     << "," << dec << v->id << "}" << endl;
+                acyclic = false;
+            }
+            edge->_leave_();
+            continue;
+        }
 
         v->parent = u;
         traverse_paths( v );
-	edge->_leave_();
+        edge->_leave_();
     }
 
     u->explored = true;
@@ -117,7 +117,7 @@ Graph::TSort() {
 VertexList *
 Graph::TSort( Vertex *u, VertexList *list ) {
     if ( u == 0 ) {
-	// generate some error
+        // generate some error
         return 0;
     }
 
@@ -129,24 +129,24 @@ Graph::TSort( Vertex *u, VertexList *list ) {
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
-	edge->_enter_();
-	edge->_visit_();
+        edge->_enter_();
+        edge->_visit_();
 
         Vertex *v = edge->vertex;
 
         if ( v->discovered ) {
-	    if ( v->explored == false ) {
-		// This is a back edge
-		cout << "Back edge found {" << dec << u->id
-		     << "," << dec << v->id << "}" << endl;
-		acyclic = false;
-	    }
-	    edge->_leave_();
-	    continue;
-	}
+            if ( v->explored == false ) {
+                // This is a back edge
+                cout << "Back edge found {" << dec << u->id
+                     << "," << dec << v->id << "}" << endl;
+                acyclic = false;
+            }
+            edge->_leave_();
+            continue;
+        }
         v->parent = u;
         list = TSort( v, list );
-	edge->_leave_();
+        edge->_leave_();
     }
     u->explored = true;
     u->_leave_();
@@ -157,8 +157,8 @@ Graph::~Graph() {
     Vertex *v = vertices;
     while ( v ) {
         Vertex *u = v->next;
-	delete v;
-	v = u;
+        delete v;
+        v = u;
     }
 }
 

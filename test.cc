@@ -28,7 +28,7 @@
 #include <tix.h>
 #endif
 
-#include "graph.h"
+#include "Graph.h"
 
 int
 edge_obj(
@@ -130,18 +130,18 @@ vertex_obj(
         }
         Vertex *v;
         if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(v)) != TCL_OK ) {
-	    return TCL_ERROR;
+            return TCL_ERROR;
         }
-	Edge *e = u->connect( v );
-	Tcl_Obj *result;
-	result = Tcl_NewStringObj( "edge", -1 );
-	Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(u->id)) );
-	Tcl_AppendObjToObj( result, Tcl_NewStringObj(",",-1) );
-	Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(v->id)) );
-	char *edge_name = Tcl_GetString(result);
+        Edge *e = u->connect( v );
+        Tcl_Obj *result;
+        result = Tcl_NewStringObj( "edge", -1 );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(u->id)) );
+        Tcl_AppendObjToObj( result, Tcl_NewStringObj(",",-1) );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(v->id)) );
+        char *edge_name = Tcl_GetString(result);
         Tcl_CreateObjCommand( interp, edge_name, edge_obj, (ClientData)e, 0 );
-	Tcl_ResetResult( interp );
-	Tcl_SetObjResult( interp, result );
+        Tcl_ResetResult( interp );
+        Tcl_SetObjResult( interp, result );
         return TCL_OK;
     }
 
@@ -212,13 +212,13 @@ graph_obj(
         Vertex *v = new Vertex( interp );
         g->add( v );
 
-	Tcl_Obj *result;
-	result = Tcl_NewStringObj( "vertex", -1 );
-	Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(v->id)) );
-	char *name = Tcl_GetString(result);
+        Tcl_Obj *result;
+        result = Tcl_NewStringObj( "vertex", -1 );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(v->id)) );
+        char *name = Tcl_GetString(result);
         Tcl_CreateObjCommand( interp, name, vertex_obj, (ClientData)v, 0 );
-	Tcl_ResetResult( interp );
-	Tcl_SetObjResult( interp, result );
+        Tcl_ResetResult( interp );
+        Tcl_SetObjResult( interp, result );
 
         return TCL_OK;
     }
@@ -231,15 +231,15 @@ graph_obj(
         }
         Vertex *v;
         if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(v)) != TCL_OK ) {
-	    return TCL_ERROR;
+            return TCL_ERROR;
         }
-	g->reset();
+        g->reset();
         g->DFS( v );
-	if ( g->acyclic ) {
+        if ( g->acyclic ) {
             Tcl_SetResult( interp, (char *)"acyclic", TCL_STATIC );
-	} else {
+        } else {
             Tcl_SetResult( interp, (char *)"cyclic", TCL_STATIC );
-	}
+        }
         return TCL_OK;
     }
 
@@ -251,14 +251,14 @@ graph_obj(
         }
         Vertex *v;
         if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(v)) != TCL_OK ) {
-	    return TCL_ERROR;
+            return TCL_ERROR;
         }
-	g->reset();
+        g->reset();
         VertexList *list = g->TSort( v, 0 );
-	if ( g->acyclic == false ) {
+        if ( g->acyclic == false ) {
             Tcl_SetResult( interp, (char *)"cycle detected", TCL_STATIC );
-	    return TCL_ERROR;
-	}
+            return TCL_ERROR;
+        }
         return TCL_OK;
     }
 

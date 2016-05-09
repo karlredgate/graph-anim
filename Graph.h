@@ -74,7 +74,7 @@ public:
     VertexList( Vertex *vertex, VertexList *next = 0 )
     : vertex(vertex), next(next) {}
     ~VertexList() {
-	if ( next != 0 ) delete next;
+        if ( next != 0 ) delete next;
     }
 };
 
@@ -103,8 +103,8 @@ class MaxHeap {
 public:
     class Element {
     public:
-	int key;
-	Vertex *vertex;
+        int key;
+        Vertex *vertex;
         Element( Vertex *vertex ) : vertex(vertex) {}
     };
     Element **elements;
