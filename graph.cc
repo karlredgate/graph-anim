@@ -24,6 +24,7 @@
 #include <iostream>
 using namespace std;
 
+#include "Traced.h"
 #include "graph.h"
 
 int Vertex::serial = 0;
@@ -160,3 +161,5 @@ Graph::~Graph() {
 	v = u;
     }
 }
+
+/* vim: set autoindent expandtab sw=4 : */
