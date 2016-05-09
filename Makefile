@@ -1,5 +1,5 @@
 
-graph: graph.o test.o
+graph: Graph.o test.o
 	$(CXX) -o $@ $^ -ltcl -ltk
 
 test: graph
