@@ -40,9 +40,8 @@ public:
     Edge *next;
     int weight;
 
-    Edge( Tcl_Interp *interp, Vertex *vertex = 0 )
-    : Traced(interp), vertex(vertex), next(0), weight(0) {}
-    ~Edge() {}
+    Edge( Tcl_Interp *interp, Vertex *vertex = 0 );
+    virtual ~Edge();
 
     virtual void visit();
 };
@@ -60,7 +59,7 @@ public:
     bool discovered, explored;
 
     Vertex( Tcl_Interp * );
-    ~Vertex() { if ( edge ) delete edge; }
+    virtual ~Vertex();
 
     int id() const;
     virtual void visit();
@@ -87,7 +86,7 @@ public:
     bool acyclic;
 
     Graph( Tcl_Interp *interp ) : interp(interp), vertices(0) {}
-    ~Graph();
+    virtual ~Graph();
 
     void add( Vertex * );
     void reset();

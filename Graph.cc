@@ -27,10 +27,29 @@ using namespace std;
 #include "Traced.h"
 #include "Graph.h"
 
+/**
+ */
+Edge::Edge( Tcl_Interp *interp, Vertex *vertex )
+  : Traced(interp), vertex(vertex), next(0), weight(0)
+{ }
+
+Edge::~Edge() {
+}
+
+void Edge::visit() {
+    _visit_();
+}
+
+/**
+ */
 Vertex::Vertex( Tcl_Interp *interp )
     : Traced(interp), next(0), edge(0), parent(0)
 {
     serialize();
+}
+
+Vertex::~Vertex() {
+    if ( edge != 0 ) delete edge;
 }
 
 int Vertex::serial = 0;
@@ -60,12 +79,6 @@ Vertex::connect( Vertex *v ) {
     e->next = edge;
     edge = e;
     return e;
-}
-
-/**
- */
-void Edge::visit() {
-    _visit_();
 }
 
 /**

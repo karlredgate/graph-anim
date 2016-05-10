@@ -1,4 +1,6 @@
 
+CXXFLAGS += -g
+
 graph: Graph.o test.o
 	$(CXX) -o $@ $^ -ltcl -ltk
 
