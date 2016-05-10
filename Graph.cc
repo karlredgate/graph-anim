@@ -84,13 +84,59 @@ Vertex::connect( Vertex *v ) {
 /**
  */
 VertexList::VertexList( Vertex *vertex, VertexList *next )
- : vertex(vertex), next(next)
-{ }
+ : vertex(vertex), next(next), previous(0)
+{
+    next->previous = this;
+}
 
 /**
  */
 VertexList::~VertexList() {
     if ( next != 0 ) delete next;
+}
+
+VertexQueue::VertexQueue()
+  : head(0), tail(0)
+{ }
+
+VertexQueue::~VertexQueue() {
+    if ( head != 0 ) delete head;
+}
+
+void
+VertexQueue::enqueue( Vertex *vertex ) {
+    VertexList *list = new VertexList( vertex, head );
+    head = list;
+    if ( tail == 0 ) tail = head;
+}
+
+Vertex *
+VertexQueue::dequeue() {
+    if ( is_empty() ) return 0;
+
+    VertexList *last = tail;
+
+    if ( head == tail ) {
+        head = 0;
+        tail = 0;
+        goto done;
+    }
+
+    tail = last->previous;
+    tail->next = 0;
+    last->previous = 0;
+
+done:
+    Vertex *v = last->vertex;
+    last->next = 0;
+    delete last;
+
+    return v;
+}
+
+bool
+VertexQueue::is_empty() {
+    return head == 0;
 }
 
 /**

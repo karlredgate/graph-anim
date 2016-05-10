@@ -67,12 +67,29 @@ public:
     Edge * connect( Vertex * );
 };
 
+/**
+ * TODO - make members private and close the interface
+ */
 class VertexList {
 public:
     Vertex *vertex;
     VertexList *next;
+    VertexList *previous;
     VertexList( Vertex *vertex, VertexList *next = 0 );
     virtual ~VertexList();
+};
+
+class VertexQueue {
+private:
+    VertexList *head;
+    VertexList *tail;
+public:
+    VertexQueue();
+    virtual ~VertexQueue();
+
+    void enqueue( Vertex *vertex );
+    Vertex * dequeue();
+    bool is_empty();
 };
 
 class Graph {
