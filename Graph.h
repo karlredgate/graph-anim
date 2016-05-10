@@ -57,6 +57,7 @@ public:
     Edge *edge;
     Vertex *parent;
     bool discovered, explored;
+    int distance;
 
     Vertex( Tcl_Interp * );
     virtual ~Vertex();
@@ -101,13 +102,18 @@ public:
     Vertex *vertices;
     bool acyclic;
 
-    Graph( Tcl_Interp *interp ) : interp(interp), vertices(0) {}
+    Graph( Tcl_Interp *interp );
     virtual ~Graph();
 
     void add( Vertex * );
     void reset();
+
+    void BFS( Vertex * );
+    void BFS();
+
     void DFS( Vertex * );
     void DFS();
+
     VertexList *TSort( Vertex *, VertexList * );
     VertexList *TSort();
 };

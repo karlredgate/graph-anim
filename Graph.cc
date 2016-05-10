@@ -43,7 +43,8 @@ void Edge::visit() {
 /**
  */
 Vertex::Vertex( Tcl_Interp *interp )
-    : Traced(interp), next(0), edge(0), parent(0)
+    : Traced(interp), next(0), edge(0), parent(0),
+      discovered(false), explored(false), distance(0)
 {
     serialize();
 }
@@ -71,6 +72,7 @@ void Vertex::visit() {
 void Vertex::reset() {
     discovered = false;
     explored   = false;
+    distance = 0;
 }
 
 Edge *
@@ -142,6 +144,19 @@ VertexQueue::is_empty() {
 
 /**
  */
+Graph::Graph( Tcl_Interp *interp )
+  : interp(interp), vertices(0)
+{ }
+
+Graph::~Graph() {
+    Vertex *v = vertices;
+    while ( v ) {
+        Vertex *u = v->next;
+        delete v;
+        v = u;
+    }
+}
+
 void Graph::add( Vertex *vertex ) {
     vertex->next = vertices;
     vertices = vertex;
@@ -160,6 +175,30 @@ void Graph::reset() {
 
 void Graph::traverse_edges( Vertex *u ) {
     acyclic = true;
+}
+
+void Graph::BFS() {
+    BFS( root );
+}
+
+/**
+ * The following represents the colors:
+ *
+ *         discovered  explored
+ * White    false       false
+ * Gray     true        false
+ * Black    true        true
+ */
+void Graph::BFS( Vertex *u ) {
+    VertexQueue *q = new VertexQueue();
+
+    u->_enter_();
+    u->discovered = true;
+    u->visit();
+}
+
+void Graph::DFS() {
+    DFS( root );
 }
 
 void Graph::DFS( Vertex *u ) {
@@ -235,15 +274,6 @@ Graph::TSort( Vertex *u, VertexList *list ) {
     u->explored = true;
     u->_leave_();
     return new VertexList( u, list );
-}
-
-Graph::~Graph() {
-    Vertex *v = vertices;
-    while ( v ) {
-        Vertex *u = v->next;
-        delete v;
-        v = u;
-    }
 }
 
 /* vim: set autoindent expandtab sw=4 : */
