@@ -198,14 +198,15 @@ void Graph::BFS() {
 void Graph::BFS( Vertex *start ) {
     VertexQueue q;
 
-    start->_enter_();
     start->discovered = true;
-    start->visit();
 
     q.enqueue( start );
 
     while ( q.not_empty() ) {
         Vertex *u = q.dequeue();
+
+        u->_enter_();
+        u->visit();
 
         for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
             edge->_enter_();
@@ -214,6 +215,7 @@ void Graph::BFS( Vertex *start ) {
             Vertex *v = edge->vertex;
 
             if ( v->discovered ) {
+                edge->_leave_();
                 continue;
             }
 
@@ -221,9 +223,12 @@ void Graph::BFS( Vertex *start ) {
             v->distance = u->distance + 1;
             v->parent = u;
             q.enqueue( v );
+
+            edge->_leave_();
         }
 
         u->explored = true;
+        u->_leave_();
     }
 }
 
