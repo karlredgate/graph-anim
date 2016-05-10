@@ -62,8 +62,8 @@ proc closest_oval {c x y} {
     set y2 [expr $y+$radius]
     set items [$c find overlapping $x1 $y1 $x2 $y2]
     foreach item $items {
-	set type [$c type $item]
-	if { $type == "oval" } break
+        set type [$c type $item]
+        if { $type == "oval" } break
     }
     if { $type == "oval" } { return $item }
     log "Type of '$item' is '$type'"
@@ -78,14 +78,14 @@ proc grab_or_vertex {c x y} {
     set y2 [expr $y+$radius]
     set near [$c find overlapping $x1 $y1 $x2 $y2]
     if { [llength $near] > 1 } {
-	log "More than one item near cursor"
-	return
+        log "More than one item near cursor"
+        return
     }
     log "Type of '$near' is '[$c type $near]'"
     if { [$c type $near] != "oval" } {
-	draw_vertex $c $x $y
+        draw_vertex $c $x $y
     } else {
-	log "Grab should happen"
+        log "Grab should happen"
     }
 }
 
@@ -127,8 +127,8 @@ proc centerpoint {coords} {
 proc getvertex {c tagOrId} {
     set tags [$c gettags $tagOrId]
     foreach tag $tags {
-	if { $tag == "current" } continue
-	return $tag
+        if { $tag == "current" } continue
+        return $tag
     }
     log "No vertex for $tagOrId"
     exit
@@ -154,9 +154,9 @@ proc finishline {c x y} {
     set closest [closest_oval $c $x $y]
     set type    [$c type $closest]
     if { $type != "oval" } {
-	log "Closest item is not an oval, it is a '$type'"
-	$c delete $edge
-	return
+        log "Closest item is not an oval, it is a '$type'"
+        $c delete $edge
+        return
     }
     set here [centerpoint [$c coords $closest]]
     $c coords $edge [concat $edgeU $here]
