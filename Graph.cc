@@ -61,11 +61,27 @@ Vertex::connect( Vertex *v ) {
     edge = e;
     return e;
 }
-
+
+/**
+ */
 void Edge::visit() {
     _visit_();
 }
+
+/**
+ */
+VertexList::VertexList( Vertex *vertex, VertexList *next )
+ : vertex(vertex), next(next)
+{ }
 
+/**
+ */
+VertexList::~VertexList() {
+    if ( next != 0 ) delete next;
+}
+
+/**
+ */
 void Graph::add( Vertex *vertex ) {
     vertex->next = vertices;
     vertices = vertex;

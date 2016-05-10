@@ -72,11 +72,8 @@ class VertexList {
 public:
     Vertex *vertex;
     VertexList *next;
-    VertexList( Vertex *vertex, VertexList *next = 0 )
-    : vertex(vertex), next(next) {}
-    ~VertexList() {
-        if ( next != 0 ) delete next;
-    }
+    VertexList( Vertex *vertex, VertexList *next = 0 );
+    virtual ~VertexList();
 };
 
 class Graph {
