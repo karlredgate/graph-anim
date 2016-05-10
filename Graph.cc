@@ -73,6 +73,7 @@ void Vertex::reset() {
     discovered = false;
     explored   = false;
     distance = 0;
+    parent = NULL;
 }
 
 Edge *
@@ -141,6 +142,11 @@ bool
 VertexQueue::is_empty() {
     return head == 0;
 }
+
+bool
+VertexQueue::not_empty() {
+    return head != 0;
+}
 
 /**
  */
@@ -189,12 +195,36 @@ void Graph::BFS() {
  * Gray     true        false
  * Black    true        true
  */
-void Graph::BFS( Vertex *u ) {
-    VertexQueue *q = new VertexQueue();
+void Graph::BFS( Vertex *start ) {
+    VertexQueue q;
 
-    u->_enter_();
-    u->discovered = true;
-    u->visit();
+    start->_enter_();
+    start->discovered = true;
+    start->visit();
+
+    q.enqueue( start );
+
+    while ( q.not_empty() ) {
+        Vertex *u = q.dequeue();
+
+        for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
+            edge->_enter_();
+            edge->_visit_();
+
+            Vertex *v = edge->vertex;
+
+            if ( v->discovered ) {
+                continue;
+            }
+
+            v->discovered = true;
+            v->distance = u->distance + 1;
+            v->parent = u;
+            q.enqueue( v );
+        }
+
+        u->explored = true;
+    }
 }
 
 void Graph::DFS() {

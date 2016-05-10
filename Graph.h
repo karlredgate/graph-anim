@@ -91,6 +91,7 @@ public:
     void enqueue( Vertex *vertex );
     Vertex * dequeue();
     bool is_empty();
+    bool not_empty();
 };
 
 class Graph {
