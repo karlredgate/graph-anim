@@ -94,7 +94,6 @@ public:
 
 class Graph {
 private:
-    void traverse_paths( Vertex * );
     void traverse_edges( Vertex * );
 public:
     Tcl_Interp *interp;

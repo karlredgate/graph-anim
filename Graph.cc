@@ -149,22 +149,20 @@ void Graph::add( Vertex *vertex ) {
 
 void Graph::reset() {
     Vertex *v = vertices;
+
     while ( v != 0 ) {
         v->reset();
         v = v->next;
     }
-}
 
-void Graph::DFS( Vertex *u ) {
     acyclic = true;
-    traverse_paths( u );
 }
 
 void Graph::traverse_edges( Vertex *u ) {
     acyclic = true;
 }
 
-void Graph::traverse_paths( Vertex *u ) {
+void Graph::DFS( Vertex *u ) {
     u->_enter_();
     u->discovered = true;
     u->visit();
@@ -186,7 +184,7 @@ void Graph::traverse_paths( Vertex *u ) {
         }
 
         v->parent = u;
-        traverse_paths( v );
+        DFS( v );
         edge->_leave_();
     }
 
