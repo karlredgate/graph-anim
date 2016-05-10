@@ -267,6 +267,26 @@ graph_obj(
         return TCL_OK;
     }
 
+    if ( Tcl_StringMatch(command, "BFS") ) {
+        if ( objc != 3 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "BFS vertex" );
+            return TCL_ERROR;
+        }
+        Vertex *v;
+        if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(v)) != TCL_OK ) {
+            return TCL_ERROR;
+        }
+        g->reset();
+        g->BFS( v );
+        if ( g->acyclic ) {
+            Tcl_SetResult( interp, (char *)"acyclic", TCL_STATIC );
+        } else {
+            Tcl_SetResult( interp, (char *)"cyclic", TCL_STATIC );
+        }
+        return TCL_OK;
+    }
+
     if ( Tcl_StringMatch(command, "tsort") ) {
         if ( objc != 3 ) {
             Tcl_ResetResult( interp );
