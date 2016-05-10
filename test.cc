@@ -118,7 +118,7 @@ vertex_obj(
             Tcl_WrongNumArgs( interp, 1, objv, "id" );
             return TCL_ERROR;
         }
-        Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(u->id)) );
+        Tcl_SetObjResult( interp, Tcl_NewLongObj((long)( u->id() )) );
         return TCL_OK;
     }
 
@@ -135,9 +135,9 @@ vertex_obj(
         Edge *e = u->connect( v );
         Tcl_Obj *result;
         result = Tcl_NewStringObj( "edge", -1 );
-        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(u->id)) );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)( u->id() )) );
         Tcl_AppendObjToObj( result, Tcl_NewStringObj(",",-1) );
-        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(v->id)) );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)( v->id() )) );
         char *edge_name = Tcl_GetString(result);
         Tcl_CreateObjCommand( interp, edge_name, edge_obj, (ClientData)e, 0 );
         Tcl_ResetResult( interp );
@@ -214,7 +214,7 @@ graph_obj(
 
         Tcl_Obj *result;
         result = Tcl_NewStringObj( "vertex", -1 );
-        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)(v->id)) );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)( v->id() )) );
         char *name = Tcl_GetString(result);
         Tcl_CreateObjCommand( interp, name, vertex_obj, (ClientData)v, 0 );
         Tcl_ResetResult( interp );
