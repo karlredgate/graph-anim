@@ -307,6 +307,100 @@ graph_cmd(
     return TCL_OK;
 }
 
+int
+VertexQueue_obj(
+    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
+) {
+    VertexQueue *q = (VertexQueue *)data;
+
+    if ( objc < 2 || objc > 3 ) {
+        Tcl_ResetResult( interp );
+        Tcl_WrongNumArgs( interp, 1, objv, "command [value]" );
+        return TCL_ERROR;
+    }
+    char *command = Tcl_GetStringFromObj( objv[1], NULL );
+
+    if ( Tcl_StringMatch(command, "reference") ) {
+        if ( objc != 2 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "reference" );
+            return TCL_ERROR;
+        }
+        Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(q)) );
+        return TCL_OK;
+    }
+
+    if ( Tcl_StringMatch(command, "enqueue") ) {
+        if ( objc != 3 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "enqueue [vertex]" );
+            return TCL_ERROR;
+        }
+
+        Vertex *v;
+        if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(v)) != TCL_OK ) {
+            return TCL_ERROR;
+        }
+
+        q->enqueue( v );
+
+        Tcl_ResetResult( interp );
+        return TCL_OK;
+    }
+
+    if ( Tcl_StringMatch(command, "dequeue") ) {
+        if ( objc != 2 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "vertex" );
+            return TCL_ERROR;
+        }
+
+        if ( q->is_empty() ) {
+            Tcl_SetResult( interp, (char *)"queue is empty", TCL_STATIC );
+            return TCL_ERROR;
+        }
+
+        Vertex *v = q->dequeue();
+
+        if ( v == 0 ) {
+            Tcl_SetResult( interp, (char *)"BUG - queue not empty but queue returned null", TCL_STATIC );
+            return TCL_ERROR;
+        }
+
+        Tcl_Obj *result;
+        result = Tcl_NewStringObj( "vertex", -1 );
+        Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)( v->id() )) );
+
+        char *name = Tcl_GetString(result);
+        Tcl_CreateObjCommand( interp, name, vertex_obj, (ClientData)v, 0 );
+        Tcl_ResetResult( interp );
+        Tcl_SetObjResult( interp, result );
+
+        return TCL_OK;
+    }
+
+    Tcl_SetResult( interp, (char *)"Unknown command for VertexQueue object", TCL_STATIC );
+    return TCL_OK;
+}
+
+int
+VertexQueue_cmd(
+    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
+) {
+    if ( objc != 2 ) {
+        Tcl_ResetResult( interp );
+        Tcl_WrongNumArgs( interp, 1, objv, "name" );
+        return TCL_ERROR;
+    }
+    char *name = Tcl_GetStringFromObj( objv[1], NULL );
+
+    VertexQueue *q = new VertexQueue();
+
+    Tcl_CreateObjCommand( interp, name, VertexQueue_obj, (ClientData)q, 0 );
+    Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(q)) );
+    return TCL_OK;
+}
+
 static int Graph_Init( Tcl_Interp *interp ) {
     if (Tcl_Init(interp) == TCL_ERROR) {
         return TCL_ERROR;
@@ -323,6 +417,7 @@ static int Graph_Init( Tcl_Interp *interp ) {
 
     Tcl_CreateObjCommand(interp, "graph",  graph_cmd,  (ClientData)0, NULL);
     Tcl_CreateObjCommand(interp, "vertex",  vertex_cmd,  (ClientData)0, NULL);
+    Tcl_CreateObjCommand(interp, "VertexQueue",  VertexQueue_cmd,  (ClientData)0, NULL);
 
     Tcl_SetVar(interp, "tcl_rcFileName", "~/.graphrc", TCL_GLOBAL_ONLY);
     return TCL_OK;
@@ -331,3 +426,5 @@ static int Graph_Init( Tcl_Interp *interp ) {
 int main( int argc, char **argv ) {
     Tk_Main( argc, argv, Graph_Init );
 }
+
+/* vim: set autoindent expandtab sw=4 : */
