@@ -181,6 +181,30 @@ vertex_obj(
 }
 
 int
+vertex_cmd(
+    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
+) {
+    if ( objc != 1 ) {
+        Tcl_ResetResult( interp );
+        Tcl_WrongNumArgs( interp, 1, objv, "" );
+        return TCL_ERROR;
+    }
+
+    Vertex *v = new Vertex( interp );
+
+    Tcl_Obj *result;
+    result = Tcl_NewStringObj( "vertex", -1 );
+    Tcl_AppendObjToObj( result, Tcl_NewLongObj((long)( v->id() )) );
+
+    char *name = Tcl_GetString(result);
+    Tcl_CreateObjCommand( interp, name, vertex_obj, (ClientData)v, 0 );
+    Tcl_ResetResult( interp );
+    Tcl_SetObjResult( interp, result );
+
+    return TCL_OK;
+}
+
+int
 graph_obj(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
 ) {
@@ -298,6 +322,7 @@ static int Graph_Init( Tcl_Interp *interp ) {
     Tcl_StaticPackage(interp, "Tk", Tk_Init, Tk_SafeInit);
 
     Tcl_CreateObjCommand(interp, "graph",  graph_cmd,  (ClientData)0, NULL);
+    Tcl_CreateObjCommand(interp, "vertex",  vertex_cmd,  (ClientData)0, NULL);
 
     Tcl_SetVar(interp, "tcl_rcFileName", "~/.graphrc", TCL_GLOBAL_ONLY);
     return TCL_OK;
