@@ -48,20 +48,21 @@ public:
 };
 
 class Vertex : public Traced {
+private:
+    static int serial;
+    int serialize();
+    int _id;
+
 public:
     Vertex *next;
     Edge *edge;
     Vertex *parent;
     bool discovered, explored;
-    // std::string name;
-
-    static int serial;
-    int id;
-    int serialize() { return id = serial++; }
 
     Vertex( Tcl_Interp * );
     ~Vertex() { if ( edge ) delete edge; }
 
+    int id() const;
     virtual void visit();
     void reset();
     Edge * connect( Vertex * );

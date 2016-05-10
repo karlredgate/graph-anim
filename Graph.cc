@@ -27,12 +27,22 @@ using namespace std;
 #include "Traced.h"
 #include "Graph.h"
 
-int Vertex::serial = 0;
-
 Vertex::Vertex( Tcl_Interp *interp )
     : Traced(interp), next(0), edge(0), parent(0)
 {
     serialize();
+}
+
+int Vertex::serial = 0;
+
+int
+Vertex::serialize() {
+    return _id = serial++;
+}
+
+int
+Vertex::id() const {
+    return _id;
 }
 
 void Vertex::visit() {
@@ -91,8 +101,8 @@ void Graph::traverse_paths( Vertex *u ) {
         if ( v->discovered ) {
             if ( v->explored == false ) {
                 // This is a back edge
-                cout << "Back edge found {" << dec << u->id
-                     << "," << dec << v->id << "}" << endl;
+                cout << "Back edge found {" << dec << u->id()
+                     << "," << dec << v->id() << "}" << endl;
                 acyclic = false;
             }
             edge->_leave_();
@@ -137,8 +147,8 @@ Graph::TSort( Vertex *u, VertexList *list ) {
         if ( v->discovered ) {
             if ( v->explored == false ) {
                 // This is a back edge
-                cout << "Back edge found {" << dec << u->id
-                     << "," << dec << v->id << "}" << endl;
+                cout << "Back edge found {" << dec << u->id()
+                     << "," << dec << v->id() << "}" << endl;
                 acyclic = false;
             }
             edge->_leave_();
