@@ -86,6 +86,7 @@ Vertex::connect( Vertex *v ) {
 VertexList::VertexList( Vertex *vertex, VertexList *next )
  : vertex(vertex), next(next), previous(0)
 {
+    if ( next == 0 ) return;
     next->previous = this;
 }
 
