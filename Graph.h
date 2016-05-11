@@ -26,6 +26,7 @@
 #include <tcl.h>
 
 #include "Traced.h"
+#include "PointCut.h"
 
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
@@ -100,14 +101,15 @@ public:
 
 class Graph {
 private:
+    PointCut pointcut;
     int tick;
+
 public:
-    Tcl_Interp *interp;
     Vertex *root;
     Vertex *vertices;
     bool acyclic;
 
-    Graph( Tcl_Interp *interp );
+    Graph();
     virtual ~Graph();
 
     void add( Vertex * );

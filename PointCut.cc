@@ -23,29 +23,77 @@
 
 #include <unistd.h>
 #include <string>
-#include <tcl.h>
 
+#include "Advice.h"
 #include "PointCut.h"
 
-PointCut::PointCut() {
+class AdviceList {
+public:
+    Advice *advisor;
+    AdviceList *next;
+
+    AdviceList( Advice *advisor, AdviceList *next )
+    : advisor(advisor), next(next) { }
+
+    ~AdviceList() {
+        if ( next    != NULL ) delete next;
+        if ( advisor != NULL ) delete advisor;
+    }
+};
+
+PointCut::PointCut() : advisors(NULL) {
 }
 
 PointCut::~PointCut() {
+    if ( advisors != NULL ) delete advisors;
+}
+
+void
+PointCut::insert( Advice *advisor ) {
+    AdviceList *cons = new AdviceList( advisor, advisors );
+    advisors = cons;
 }
 
 void
 PointCut::_enter_() {
-    // _call_hook( enter_hook );
+    for ( AdviceList *element = advisors ; element != NULL ; element = element->next ) {
+        element->advisor->_enter_();
+    }
 }
 
 void
 PointCut::_leave_() {
-    // _call_hook( leave_hook );
+    for ( AdviceList *element = advisors ; element != NULL ; element = element->next ) {
+        element->advisor->_leave_();
+    }
 }
 
 void
 PointCut::_visit_() {
-    // _call_hook( visit_hook );
+    for ( AdviceList *element = advisors ; element != NULL ; element = element->next ) {
+        element->advisor->_visit_();
+    }
 }
+
+#if 0
+// Change to this - to avoid replication of the for loops
+//
+int (TMyClass::*pt2ConstMember)(float, char, char) const = NULL;
+
+class TMyClass
+{
+public:
+   int DoIt(float a, char b, char c){ cout << "TMyClass::DoIt"<< endl; return a+b+c;};
+   int DoMore(float a, char b, char c) const
+         { cout << "TMyClass::DoMore" << endl; return a-b+c; };
+
+   /* more of TMyClass */
+};
+pt2ConstMember = &TMyClass::DoIt; // note: <pt2Member> may also legally point to &DoMore
+
+// Calling Function using Function Pointer
+
+(*this.*pt2ConstMember)(12, 'a', 'b');
+#endif
 
 /* vim: set autoindent expandtab sw=4 : */

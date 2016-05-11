@@ -162,9 +162,7 @@ VertexQueue::not_empty() {
 
 /**
  */
-Graph::Graph( Tcl_Interp *interp )
-  : tick(0), interp(interp), vertices(0)
-{ }
+Graph::Graph() : tick(0), vertices(0) { }
 
 Graph::~Graph() {
     Vertex *v = vertices;
@@ -219,6 +217,8 @@ void Graph::BFS( Vertex *start ) {
     while ( q.not_empty() ) {
         Vertex *u = q.dequeue();
 
+        pointcut._enter_();
+
         u->_enter_();
         u->visit();
 
@@ -226,9 +226,13 @@ void Graph::BFS( Vertex *start ) {
             edge->_enter_();
             edge->_visit_();
 
+            pointcut._visit_();
+
             Vertex *v = edge->vertex;
 
             if ( v->discovered ) {
+                pointcut._leave_();
+
                 edge->_leave_();
                 continue;
             }
@@ -242,6 +246,7 @@ void Graph::BFS( Vertex *start ) {
         }
 
         u->explored = true;
+        pointcut._leave_();
         u->_leave_();
     }
 }

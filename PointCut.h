@@ -21,12 +21,12 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <unistd.h>
-#include <string>
-#include <tcl.h>
+#include "Advice.h"
 
 #ifndef _POINTCUT_H_
 #define _POINTCUT_H_
+
+class AdviceList;
 
 /**
  * PointCut defines the list of "join points" or places
@@ -37,6 +37,9 @@
  * that each have calls for the specific join point.
  */
 class PointCut {
+private:
+    AdviceList *advisors;
+
 public:
     PointCut();
     virtual ~PointCut();
@@ -44,6 +47,8 @@ public:
     virtual void _enter_();
     virtual void _leave_();
     virtual void _visit_();
+
+    void insert( Advice *advice );
 };
 
 #endif

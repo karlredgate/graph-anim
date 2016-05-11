@@ -340,7 +340,7 @@ graph_cmd(
     }
     char *name = Tcl_GetStringFromObj( objv[1], NULL );
 
-    Graph *g = new Graph( interp );
+    Graph *g = new Graph();
     Tcl_CreateObjCommand( interp, name, graph_obj, (ClientData)g, 0 );
     Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(g)) );
     return TCL_OK;
