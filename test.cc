@@ -248,6 +248,11 @@ graph_obj(
     }
 
     if ( Tcl_StringMatch(command, "DFS") ) {
+        if ( objc == 2 ) {
+            g->DFS();
+            return TCL_OK;
+        }
+
         if ( objc != 3 ) {
             Tcl_ResetResult( interp );
             Tcl_WrongNumArgs( interp, 1, objv, "DFS vertex" );
@@ -268,6 +273,11 @@ graph_obj(
     }
 
     if ( Tcl_StringMatch(command, "BFS") ) {
+        if ( objc == 2 ) {
+            g->BFS();
+            return TCL_OK;
+        }
+
         if ( objc != 3 ) {
             Tcl_ResetResult( interp );
             Tcl_WrongNumArgs( interp, 1, objv, "BFS vertex" );
