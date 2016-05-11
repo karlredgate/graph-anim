@@ -193,7 +193,12 @@ void Graph::reset() {
 }
 
 void Graph::BFS() {
-    BFS( root );
+    reset();
+
+    for ( Vertex *v = vertices ; v != NULL ; v = v->next ) {
+        if ( v->discovered ) continue;
+        BFS( v );
+    }
 }
 
 /**
@@ -244,7 +249,7 @@ void Graph::BFS( Vertex *start ) {
 void Graph::DFS() {
     reset();
 
-    for ( Vertex *v = root ; v != NULL ; v = v->next ) {
+    for ( Vertex *v = vertices ; v != NULL ; v = v->next ) {
         if ( v->discovered ) continue;
         DFS( v );
     }
@@ -287,7 +292,7 @@ void Graph::DFS( Vertex *u ) {
 VertexList *
 Graph::TSort() {
     reset();
-    return TSort(root, 0);
+    return TSort(vertices, 0);
 }
 
 VertexList *
