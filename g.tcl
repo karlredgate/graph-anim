@@ -26,12 +26,20 @@ set radius 8
 
 graph g
 
+frame .top
+frame .bottom
+pack .top .bottom
 
 text .log
 scrollbar .sb -orient vert
-pack .sb .log -expand yes -fill both -side right
+
+pack .sb .log -expand yes -fill both -side right -in .top
 .log conf -yscrollcommand {.sb set}
 .sb conf -command {.log yview}
+
+button .dfs -text "DFS" -command {g DFS}
+button .bfs -text "BFS" -command {g BFS}
+pack .dfs .bfs -side left -in .bottom
 
 .log insert end "left click to create vertex.
 right click and drag to create edge between vertices.
@@ -44,7 +52,7 @@ proc log {msg} {
 }
 
 set c [canvas .c]
-pack $c -expand yes -fill both
+pack $c -expand yes -fill both -in .top
 
 # bind $c <1>         "grab $c %x %y"
 # bind $c <B1-Motion> "drag $c %x %y"
