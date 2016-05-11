@@ -30,6 +30,8 @@
 
 #include "Graph.h"
 
+/**
+ */
 int
 edge_obj(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -88,7 +90,8 @@ edge_obj(
     return TCL_OK;
 }
 
-
+/**
+ */
 int
 vertex_obj(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -180,6 +183,8 @@ vertex_obj(
     return TCL_OK;
 }
 
+/**
+ */
 int
 vertex_cmd(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -204,6 +209,8 @@ vertex_cmd(
     return TCL_OK;
 }
 
+/**
+ */
 int
 graph_obj(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -320,6 +327,8 @@ graph_obj(
     return TCL_OK;
 }
 
+/**
+ */
 int
 graph_cmd(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -337,6 +346,8 @@ graph_cmd(
     return TCL_OK;
 }
 
+/**
+ */
 int
 VertexQueue_obj(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -413,6 +424,8 @@ VertexQueue_obj(
     return TCL_OK;
 }
 
+/**
+ */
 int
 VertexQueue_cmd(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
@@ -431,18 +444,18 @@ VertexQueue_cmd(
     return TCL_OK;
 }
 
-static int Graph_Init( Tcl_Interp *interp ) {
+/**
+ */
+static int
+Graph_Init( Tcl_Interp *interp ) {
     if (Tcl_Init(interp) == TCL_ERROR) {
         return TCL_ERROR;
     }
+
     if (Tk_Init(interp) == TCL_ERROR) {
         return TCL_ERROR;
     }
-#if 0
-    if (Tix_Init(interp) == TCL_ERROR) {
-        return TCL_ERROR;
-    }
-#endif
+
     Tcl_StaticPackage(interp, "Tk", Tk_Init, Tk_SafeInit);
 
     Tcl_CreateObjCommand(interp, "graph",  graph_cmd,  (ClientData)0, NULL);
