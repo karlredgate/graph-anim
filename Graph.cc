@@ -242,8 +242,12 @@ void Graph::BFS( Vertex *start ) {
 }
 
 void Graph::DFS() {
-    tick = 0;
-    DFS( root );
+    reset();
+
+    for ( Vertex *v = root ; v != NULL ; v = v->next ) {
+        if ( v->discovered ) continue;
+        DFS( v );
+    }
 }
 
 void Graph::DFS( Vertex *u ) {

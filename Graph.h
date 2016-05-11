@@ -113,11 +113,11 @@ public:
     void add( Vertex * );
     void reset();
 
-    void BFS( Vertex * );
     void BFS();
+    void BFS( Vertex * );
 
-    void DFS( Vertex * );
     void DFS();
+    void DFS( Vertex * );
 
     VertexList *TSort( Vertex *, VertexList * );
     VertexList *TSort();
