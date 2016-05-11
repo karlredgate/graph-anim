@@ -1,7 +1,7 @@
 
 CXXFLAGS += -g
 
-graph: Graph.o test.o
+graph: Graph.o Traced.o test.o
 	$(CXX) -o $@ $^ -ltcl -ltk
 
 test: graph
