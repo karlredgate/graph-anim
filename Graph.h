@@ -27,6 +27,7 @@
 
 #include "Traced.h"
 #include "PointCut.h"
+#include "Aspect.h"
 
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
@@ -99,9 +100,8 @@ public:
     bool not_empty();
 };
 
-class Graph {
+class Graph : public Aspect {
 private:
-    PointCut pointcut;
     int tick;
 
 public:

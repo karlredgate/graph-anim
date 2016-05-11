@@ -162,7 +162,7 @@ VertexQueue::not_empty() {
 
 /**
  */
-Graph::Graph() : tick(0), vertices(0) { }
+Graph::Graph() : Aspect(), tick(0), vertices(0) { }
 
 Graph::~Graph() {
     Vertex *v = vertices;
