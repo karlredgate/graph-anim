@@ -30,7 +30,7 @@ using namespace std;
 /**
  */
 Edge::Edge( Tcl_Interp *interp, Vertex *vertex )
-  : Traced(interp), vertex(vertex), next(0), weight(0)
+  : Traced(interp), vertex(vertex), next(0), _weight(0)
 { }
 
 Edge::~Edge() {
@@ -39,12 +39,23 @@ Edge::~Edge() {
 void Edge::visit() {
     _visit_();
 }
+
+void
+Edge::weight( int value ) {
+    _weight = value;
+}
+
+int
+Edge::weight() {
+    return _weight;
+}
 
 /**
  */
 Vertex::Vertex( Tcl_Interp *interp )
     : Traced(interp), next(0), edge(0), parent(0),
-      discovered(false), explored(false), distance(0)
+      discovered(false), explored(false),
+      distance(0), finished(0)
 {
     serialize();
 }
@@ -73,6 +84,7 @@ void Vertex::reset() {
     discovered = false;
     explored   = false;
     distance = 0;
+    finished = 0;
     parent = NULL;
 }
 
@@ -151,7 +163,7 @@ VertexQueue::not_empty() {
 /**
  */
 Graph::Graph( Tcl_Interp *interp )
-  : interp(interp), vertices(0)
+  : tick(0), interp(interp), vertices(0)
 { }
 
 Graph::~Graph() {
@@ -177,10 +189,7 @@ void Graph::reset() {
     }
 
     acyclic = true;
-}
-
-void Graph::traverse_edges( Vertex *u ) {
-    acyclic = true;
+    tick = 0;
 }
 
 void Graph::BFS() {
@@ -233,12 +242,16 @@ void Graph::BFS( Vertex *start ) {
 }
 
 void Graph::DFS() {
+    tick = 0;
     DFS( root );
 }
 
 void Graph::DFS( Vertex *u ) {
+    tick += 1;
+
     u->_enter_();
     u->discovered = true;
+    u->distance = tick;
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
@@ -263,6 +276,7 @@ void Graph::DFS( Vertex *u ) {
     }
 
     u->explored = true;
+    u->finished = tick;
     u->_leave_();
 }
 

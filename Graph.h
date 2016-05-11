@@ -34,16 +34,19 @@ class Vertex;
 class Edge;
 
 class Edge : public Traced {
+private:
+    int _weight;
 public:
     Vertex *root;
     Vertex *vertex;
     Edge *next;
-    int weight;
 
     Edge( Tcl_Interp *interp, Vertex *vertex = 0 );
     virtual ~Edge();
 
     virtual void visit();
+    void weight( int value );
+    int weight();
 };
 
 class Vertex : public Traced {
@@ -58,6 +61,7 @@ public:
     Vertex *parent;
     bool discovered, explored;
     int distance;
+    int finished;
 
     Vertex( Tcl_Interp * );
     virtual ~Vertex();
@@ -96,7 +100,7 @@ public:
 
 class Graph {
 private:
-    void traverse_edges( Vertex * );
+    int tick;
 public:
     Tcl_Interp *interp;
     Vertex *root;
