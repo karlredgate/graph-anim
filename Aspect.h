@@ -30,9 +30,10 @@
  */
 class Aspect {
 protected:
-    PointCut pointcut;
 
 public:
+    PointCut pointcut;
+
     Aspect();
     virtual ~Aspect();
 

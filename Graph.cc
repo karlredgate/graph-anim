@@ -220,11 +220,15 @@ void Graph::BFS( Vertex *start ) {
         pointcut._enter_();
 
         u->_enter_();
+        u->pointcut._enter_();
+
         u->visit();
 
         for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
             edge->_enter_();
+            edge->pointcut._enter_();
             edge->_visit_();
+            edge->pointcut._visit_();
 
             pointcut._visit_();
 
@@ -243,11 +247,13 @@ void Graph::BFS( Vertex *start ) {
             q.enqueue( v );
 
             edge->_leave_();
+            edge->pointcut._leave_();
         }
 
         u->explored = true;
         pointcut._leave_();
         u->_leave_();
+        u->pointcut._leave_();
     }
 }
 
@@ -264,13 +270,18 @@ void Graph::DFS( Vertex *u ) {
     tick += 1;
 
     u->_enter_();
+    u->pointcut._enter_();
+
     u->discovered = true;
     u->distance = tick;
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
         edge->_enter_();
+        edge->pointcut._enter_();
         edge->_visit_();
+        edge->pointcut._visit_();
+
         Vertex *v = edge->vertex;
 
         if ( v->discovered ) {
@@ -281,17 +292,20 @@ void Graph::DFS( Vertex *u ) {
                 acyclic = false;
             }
             edge->_leave_();
+            edge->pointcut._leave_();
             continue;
         }
 
         v->parent = u;
         DFS( v );
         edge->_leave_();
+        edge->pointcut._leave_();
     }
 
     u->explored = true;
     u->finished = tick;
     u->_leave_();
+    u->pointcut._leave_();
 }
 
 VertexList *
@@ -310,13 +324,16 @@ Graph::TSort( Vertex *u, VertexList *list ) {
     acyclic = true;
 
     u->_enter_();
+    u->pointcut._enter_();
 
     u->discovered = true;
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
         edge->_enter_();
+        edge->pointcut._enter_();
         edge->_visit_();
+        edge->pointcut._visit_();
 
         Vertex *v = edge->vertex;
 
@@ -328,14 +345,19 @@ Graph::TSort( Vertex *u, VertexList *list ) {
                 acyclic = false;
             }
             edge->_leave_();
+            edge->pointcut._leave_();
             continue;
         }
         v->parent = u;
         list = TSort( v, list );
         edge->_leave_();
+        edge->pointcut._leave_();
     }
+
     u->explored = true;
     u->_leave_();
+    u->pointcut._leave_();
+
     return new VertexList( u, list );
 }
 
