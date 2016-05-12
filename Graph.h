@@ -49,6 +49,9 @@ public:
     int weight();
 };
 
+/**
+ * tedge - is the transposed edges, use to generate graph Gt
+ */
 class Vertex : public Aspect {
 private:
     static int serial;
@@ -58,6 +61,7 @@ private:
 public:
     Vertex *next;
     Edge *edge;
+    Edge *tedge;
     Vertex *parent;
     bool discovered, explored;
     int distance;

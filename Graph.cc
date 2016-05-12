@@ -52,7 +52,7 @@ Edge::weight() {
 /**
  */
 Vertex::Vertex()
-    : next(0), edge(0), parent(0),
+    : next(0), edge(0), tedge(0), parent(0),
       discovered(false), explored(false),
       distance(0), finished(0)
 {
