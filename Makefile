@@ -13,6 +13,11 @@ OBJS += test.o
 graph: $(OBJS)
 	$(CXX) -o $@ $^ -ltcl -ltk
 
+# Add .d dependencies
+
+Aspect.o Graph.o : Aspect.h
+PointCut.o : PointCut.h
+
 test: graph
 	./graph g.tcl
 
