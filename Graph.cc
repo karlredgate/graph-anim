@@ -210,29 +210,21 @@ void Graph::BFS( Vertex *start ) {
     VertexQueue q;
 
     start->discovered = true;
-
     q.enqueue( start );
 
     while ( q.not_empty() ) {
         Vertex *u = q.dequeue();
 
-        pointcut._enter_();
-
         u->pointcut._enter_();
-
         u->visit();
 
         for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
             edge->pointcut._enter_();
             edge->visit();
 
-            pointcut._visit_();
-
             Vertex *v = edge->vertex;
 
             if ( v->discovered ) {
-                pointcut._leave_();
-
                 edge->pointcut._leave_();
                 continue;
             }
@@ -246,7 +238,6 @@ void Graph::BFS( Vertex *start ) {
         }
 
         u->explored = true;
-        pointcut._leave_();
         u->pointcut._leave_();
     }
 }
@@ -272,7 +263,6 @@ void Graph::DFS( Vertex *u ) {
     for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
         edge->pointcut._enter_();
         edge->visit();
-        edge->pointcut._visit_();
 
         Vertex *v = edge->vertex;
 
@@ -320,7 +310,6 @@ Graph::TSort( Vertex *u, VertexList *list ) {
     for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
         edge->pointcut._enter_();
         edge->visit();
-        edge->pointcut._visit_();
 
         Vertex *v = edge->vertex;
 
