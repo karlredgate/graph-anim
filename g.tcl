@@ -175,9 +175,11 @@ proc finishline {c x y} {
     set V [getvertex $c $closest]
     set edge_cmd [$U connect [$V reference]]
     # $edge_cmd enter "$c itemconfigure $edge -fill red ; puts \"enter $edge_cmd\""
-    $edge_cmd enter "$c itemconfigure $edge -fill red"
-    $edge_cmd visit "log \"visit $edge_cmd (id=$edge)\""
-    $edge_cmd leave "$c itemconfigure $edge -fill black"
+    Advice tracer
+    tracer enter "$c itemconfigure $edge -fill red"
+    tracer visit "log \"visit $edge_cmd (id=$edge)\""
+    tracer leave "$c itemconfigure $edge -fill black"
+    $edge_cmd advice [tracer]
     # $edge_cmd leave "$c itemconfigure $edge -fill black ; puts \"leave $edge_cmd\""
 }
 
