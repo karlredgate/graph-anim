@@ -72,37 +72,6 @@ edge_obj(
         return TCL_OK;
     }
 
-    if ( Tcl_StringMatch(command, "enter") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "enter script" );
-            return TCL_ERROR;
-        }
-
-        e->_enter_( objv[2] );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "leave") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "leave script" );
-            return TCL_ERROR;
-        }
-        e->_leave_( objv[2] );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "visit") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "visit script" );
-            return TCL_ERROR;
-        }
-        e->_visit_( objv[2] );
-        return TCL_OK;
-    }
-
     Tcl_SetResult( interp, (char *)"Unknown command for edge", TCL_STATIC );
 
     return TCL_OK;
@@ -179,36 +148,6 @@ vertex_obj(
         }
 
         u->insert( advice );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "enter") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "enter script" );
-            return TCL_ERROR;
-        }
-        u->_enter_( objv[2] );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "leave") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "leave script" );
-            return TCL_ERROR;
-        }
-        u->_leave_( objv[2] );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "visit") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "visit script" );
-            return TCL_ERROR;
-        }
-        u->_visit_( objv[2] );
         return TCL_OK;
     }
 
