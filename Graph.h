@@ -35,7 +35,7 @@
 class Vertex;
 class Edge;
 
-class Edge : public Traced, Aspect {
+class Edge : public Traced, public Aspect {
 private:
     int _weight;
 public:
@@ -51,7 +51,7 @@ public:
     int weight();
 };
 
-class Vertex : public Traced, Aspect {
+class Vertex : public Traced, public Aspect {
 private:
     static int serial;
     int serialize();

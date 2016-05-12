@@ -56,6 +56,22 @@ edge_obj(
         return TCL_OK;
     }
 
+    if ( Tcl_StringMatch(command, "advice") ) {
+        if ( objc != 3 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "advice [objref]" );
+            return TCL_ERROR;
+        }
+
+        TCLTraceAdvice *advice;
+        if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(advice)) != TCL_OK ) {
+            return TCL_ERROR;
+        }
+
+        e->insert( advice );
+        return TCL_OK;
+    }
+
     if ( Tcl_StringMatch(command, "enter") ) {
         if ( objc != 3 ) {
             Tcl_ResetResult( interp );
@@ -147,6 +163,22 @@ vertex_obj(
         Tcl_CreateObjCommand( interp, edge_name, edge_obj, (ClientData)e, 0 );
         Tcl_ResetResult( interp );
         Tcl_SetObjResult( interp, result );
+        return TCL_OK;
+    }
+
+    if ( Tcl_StringMatch(command, "advice") ) {
+        if ( objc != 3 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "advice [objref]" );
+            return TCL_ERROR;
+        }
+
+        TCLTraceAdvice *advice;
+        if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(advice)) != TCL_OK ) {
+            return TCL_ERROR;
+        }
+
+        u->insert( advice );
         return TCL_OK;
     }
 

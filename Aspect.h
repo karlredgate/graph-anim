@@ -21,6 +21,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "PointCut.h"
+
 #ifndef _ASPECT_H_
 #define _ASPECT_H_
 
