@@ -119,9 +119,11 @@ proc draw_vertex {c x y} {
     $c addtag $label withtag $u
 
     # $label enter "$c itemconfigure $u -fill blue ; puts \"Enter: $label ($u)\""
-    $label enter "$c itemconfigure $u -fill blue"
-    $label visit "log \"visit $label (id=$u)\""
-    $label leave "$c itemconfigure $u -fill yellow"
+    Advice tracer
+    tracer enter "$c itemconfigure $u -fill blue"
+    tracer visit "log \"visit $label (id=$u)\""
+    tracer leave "$c itemconfigure $u -fill yellow"
+    $label advice [tracer]
     # $label leave "$c itemconfigure $u -fill yellow ; puts \"Leave: $label ($u)\""
 }
 
