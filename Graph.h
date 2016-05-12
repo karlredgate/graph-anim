@@ -25,7 +25,6 @@
 #include <string>
 #include <tcl.h>
 
-#include "Traced.h"
 #include "PointCut.h"
 #include "Aspect.h"
 
@@ -35,7 +34,7 @@
 class Vertex;
 class Edge;
 
-class Edge : public Traced, public Aspect {
+class Edge : public Aspect {
 private:
     int _weight;
 public:
@@ -43,7 +42,7 @@ public:
     Vertex *vertex;
     Edge *next;
 
-    Edge( Tcl_Interp *interp, Vertex *vertex = 0 );
+    Edge( Vertex *vertex = 0 );
     virtual ~Edge();
 
     virtual void visit();
@@ -51,7 +50,7 @@ public:
     int weight();
 };
 
-class Vertex : public Traced, public Aspect {
+class Vertex : public Aspect {
 private:
     static int serial;
     int serialize();
@@ -65,7 +64,7 @@ public:
     int distance;
     int finished;
 
-    Vertex( Tcl_Interp * );
+    Vertex();
     virtual ~Vertex();
 
     int id() const;

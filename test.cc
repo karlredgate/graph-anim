@@ -168,7 +168,7 @@ vertex_cmd(
         return TCL_ERROR;
     }
 
-    Vertex *v = new Vertex( interp );
+    Vertex *v = new Vertex();
 
     Tcl_Obj *result;
     result = Tcl_NewStringObj( "vertex", -1 );
@@ -213,7 +213,7 @@ graph_obj(
             Tcl_WrongNumArgs( interp, 1, objv, "vertex" );
             return TCL_ERROR;
         }
-        Vertex *v = new Vertex( interp );
+        Vertex *v = new Vertex();
         g->add( v );
 
         Tcl_Obj *result;

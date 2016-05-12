@@ -29,15 +29,15 @@ using namespace std;
 
 /**
  */
-Edge::Edge( Tcl_Interp *interp, Vertex *vertex )
-  : Traced(interp), vertex(vertex), next(0), _weight(0)
+Edge::Edge( Vertex *vertex )
+  : vertex(vertex), next(0), _weight(0)
 { }
 
 Edge::~Edge() {
 }
 
 void Edge::visit() {
-    _visit_();
+    pointcut._visit_();
 }
 
 void
@@ -52,8 +52,8 @@ Edge::weight() {
 
 /**
  */
-Vertex::Vertex( Tcl_Interp *interp )
-    : Traced(interp), next(0), edge(0), parent(0),
+Vertex::Vertex()
+    : next(0), edge(0), parent(0),
       discovered(false), explored(false),
       distance(0), finished(0)
 {
@@ -77,7 +77,7 @@ Vertex::id() const {
 }
 
 void Vertex::visit() {
-    _visit_();
+    pointcut._visit_();
 }
 
 void Vertex::reset() {
@@ -90,7 +90,7 @@ void Vertex::reset() {
 
 Edge *
 Vertex::connect( Vertex *v ) {
-    Edge *e = new Edge( interp, v );
+    Edge *e = new Edge( v );
     e->next = edge;
     edge = e;
     return e;
@@ -219,16 +219,13 @@ void Graph::BFS( Vertex *start ) {
 
         pointcut._enter_();
 
-        u->_enter_();
         u->pointcut._enter_();
 
         u->visit();
 
         for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
-            edge->_enter_();
             edge->pointcut._enter_();
-            edge->_visit_();
-            edge->pointcut._visit_();
+            edge->visit();
 
             pointcut._visit_();
 
@@ -237,7 +234,7 @@ void Graph::BFS( Vertex *start ) {
             if ( v->discovered ) {
                 pointcut._leave_();
 
-                edge->_leave_();
+                edge->pointcut._leave_();
                 continue;
             }
 
@@ -246,13 +243,11 @@ void Graph::BFS( Vertex *start ) {
             v->parent = u;
             q.enqueue( v );
 
-            edge->_leave_();
             edge->pointcut._leave_();
         }
 
         u->explored = true;
         pointcut._leave_();
-        u->_leave_();
         u->pointcut._leave_();
     }
 }
@@ -269,7 +264,6 @@ void Graph::DFS() {
 void Graph::DFS( Vertex *u ) {
     tick += 1;
 
-    u->_enter_();
     u->pointcut._enter_();
 
     u->discovered = true;
@@ -277,9 +271,8 @@ void Graph::DFS( Vertex *u ) {
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
-        edge->_enter_();
         edge->pointcut._enter_();
-        edge->_visit_();
+        edge->visit();
         edge->pointcut._visit_();
 
         Vertex *v = edge->vertex;
@@ -291,20 +284,17 @@ void Graph::DFS( Vertex *u ) {
                      << "," << dec << v->id() << "}" << endl;
                 acyclic = false;
             }
-            edge->_leave_();
             edge->pointcut._leave_();
             continue;
         }
 
         v->parent = u;
         DFS( v );
-        edge->_leave_();
         edge->pointcut._leave_();
     }
 
     u->explored = true;
     u->finished = tick;
-    u->_leave_();
     u->pointcut._leave_();
 }
 
@@ -323,16 +313,14 @@ Graph::TSort( Vertex *u, VertexList *list ) {
 
     acyclic = true;
 
-    u->_enter_();
     u->pointcut._enter_();
 
     u->discovered = true;
     u->visit();
 
     for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
-        edge->_enter_();
         edge->pointcut._enter_();
-        edge->_visit_();
+        edge->visit();
         edge->pointcut._visit_();
 
         Vertex *v = edge->vertex;
@@ -344,18 +332,15 @@ Graph::TSort( Vertex *u, VertexList *list ) {
                      << "," << dec << v->id() << "}" << endl;
                 acyclic = false;
             }
-            edge->_leave_();
             edge->pointcut._leave_();
             continue;
         }
         v->parent = u;
         list = TSort( v, list );
-        edge->_leave_();
         edge->pointcut._leave_();
     }
 
     u->explored = true;
-    u->_leave_();
     u->pointcut._leave_();
 
     return new VertexList( u, list );
