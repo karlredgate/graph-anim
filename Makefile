@@ -6,7 +6,6 @@ OBJS += PointCut.o
 OBJS += Advice.o
 OBJS += TCLTraceAdvice.o
 OBJS += Aspect.o
-OBJS += Traced.o
 OBJS += Graph.o
 OBJS += test.o
 

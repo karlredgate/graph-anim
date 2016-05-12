@@ -24,7 +24,6 @@
 #include <iostream>
 using namespace std;
 
-#include "Traced.h"
 #include "Graph.h"
 
 /**

@@ -23,7 +23,6 @@
 
 #include <unistd.h>
 #include <string>
-#include <tcl.h>
 
 #include "PointCut.h"
 #include "Aspect.h"
