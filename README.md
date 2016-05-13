@@ -1,4 +1,7 @@
-graph-anim
+Graph Library
 ==========
 
-Simple library for animating graph algorithms
+Simple library and test tool for animating graph algorithms
+
+
+<!-- vim: set autoindent expandtab sw=4 syntax=markdown: -->
