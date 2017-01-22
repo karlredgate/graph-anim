@@ -7,18 +7,28 @@ OBJS += Advice.o
 OBJS += TCLTraceAdvice.o
 OBJS += Aspect.o
 OBJS += Graph.o
-OBJS += test.o
+OBJS += ANN.o
 
-graph: $(OBJS)
+default: test
+
+tk_graph: $(OBJS) tk_graph.o
+
 	$(CXX) -o $@ $^ -ltcl -ltk
+
+graph: $(OBJS) shell.o
+	$(CXX) -o $@ $^ -ltcl
 
 # Add .d dependencies
 
 Aspect.o Graph.o : Aspect.h
 PointCut.o : PointCut.h
+ANN.o : ANN.h
 
 test: graph
-	./graph g.tcl
+	./graph tests/simple.tcl
+
+tk_test: graph
+	./tk_graph g.tcl
 
 clean:
 	rm *.o graph
