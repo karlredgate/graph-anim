@@ -1,3 +1,4 @@
+$(warning Loading Darwin rules)
 
 DISTRO := OSX
 RELEASE := $(shell sw_vers -productVersion)
@@ -25,7 +26,7 @@ distro_test: release_test
 distro_clean: release_clean
 	@echo Generic Darwin clean
 
-VERSION := $(shell sw_vers -productVersion)
-include Makefiles/Darwin$(VERSION).mk
+# VERSION := $(shell sw_vers -productVersion)
+#  include Makefiles/Darwin$(VERSION).mk
 
 include $(wildcard Makefiles/$(DISTRO).mk Makefiles/Darwin$(RELEASE).mk )

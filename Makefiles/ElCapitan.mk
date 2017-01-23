@@ -1,3 +1,4 @@
+$(warning Loading ElCapitan rules)
 
 release_dependencies:
 	@echo Check el capitan dependencies
