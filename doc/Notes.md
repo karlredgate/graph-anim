@@ -29,3 +29,7 @@ https://en.wikipedia.org/wiki/Pointcut
 https://en.wikipedia.org/wiki/Aspect_weaver
 https://en.wikipedia.org/wiki/Advice_(programming)
 
+
+neural nets
+
+tie to Electron for better UI
