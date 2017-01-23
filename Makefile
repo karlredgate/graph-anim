@@ -1,6 +1,10 @@
 
+default: test
+
 PACKAGE = graph-anim
 PWD := $(shell pwd)
+OS := $(shell uname -s)
+include Makefiles/$(OS).mk
 
 CXXFLAGS += -g
 
@@ -11,8 +15,6 @@ OBJS += TCLTraceAdvice.o
 OBJS += Aspect.o
 OBJS += Graph.o
 OBJS += ANN.o
-
-default: test
 
 tk_graph: $(OBJS) tk_graph.o
 

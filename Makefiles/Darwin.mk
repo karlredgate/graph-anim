@@ -6,6 +6,8 @@ ifeq ($(RELEASE),10.11.6)
 CODENAME := ElCapitan
 endif
 
+CXXFLAGS += -Iinclude/$(OS)
+
 # Mac OSX package
 
 distro_dependencies: release_dependencies
