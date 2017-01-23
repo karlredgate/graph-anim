@@ -22,7 +22,8 @@
  */
 
 #include <iostream>
-#include <Tcl/tcl.h>
+
+#include "platform_tcl.h"
 
 #include "Graph.h"
 #include "TCLTraceAdvice.h"

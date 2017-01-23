@@ -22,11 +22,9 @@
  */
 
 #include <iostream>
-#include <tcl.h>
-#include <tk.h>
-#if 0
-#include <tix.h>
-#endif
+
+#include "platform_tcl.h"
+#include "platform_tk.h"
 
 #include "Graph.h"
 #include "TCLTraceAdvice.h"

@@ -6,6 +6,7 @@ PWD := $(shell pwd)
 OS := $(shell uname -s)
 include Makefiles/$(OS).mk
 
+CXXFLAGS += -Iinclude/$(OS) -Iinclude/Generic
 CXXFLAGS += -g
 
 OBJS =
