@@ -54,6 +54,9 @@ $v4 advice [t4]
 $v1 connect [$v2 reference]
 $v2 connect [$v4 reference]
 $v1 connect [$v3 reference]
-$v4 connect [$v3 reference]
+$v4 connect [$v1 reference]
 
+puts "Depth first search"
 testGraph DFS
+puts "Breadth first search"
+testGraph BFS
