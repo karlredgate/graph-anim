@@ -1,4 +1,7 @@
 
+PACKAGE = graph-anim
+PWD := $(shell pwd)
+
 CXXFLAGS += -g
 
 OBJS =
