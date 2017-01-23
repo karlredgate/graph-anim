@@ -148,7 +148,7 @@ vertex_obj(
         return TCL_OK;
     }
 
-    Tcl_SetResult( interp, (char *)"Unknown command for vertex", TCL_STATIC );
+    Tcl_SetResult( interp, (char *)"Unknown command for vertex [reference id connect advice]", TCL_STATIC );
 
     return TCL_OK;
 }
