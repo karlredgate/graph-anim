@@ -86,6 +86,7 @@ public:
     VertexList *previous;
     VertexList( Vertex *vertex, VertexList *next = 0 );
     virtual ~VertexList();
+    void destroy();
 };
 
 class VertexQueue {
@@ -108,6 +109,7 @@ private:
 
 public:
     Vertex *root;
+    // This should be a vertexlist
     Vertex *vertices;
     bool acyclic;
 

@@ -105,9 +105,19 @@ VertexList::VertexList( Vertex *vertex, VertexList *next )
 }
 
 /**
+ * Deleting the VertexList just deletes the list, not the
+ * vertices contained in the list.
  */
 VertexList::~VertexList() {
     if ( next != 0 ) delete next;
+}
+
+/**
+ */
+void
+VertexList::destroy() {
+    if ( next != 0 ) next->destroy();
+    delete vertex;
 }
 
 VertexQueue::VertexQueue()
