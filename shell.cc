@@ -377,6 +377,28 @@ VertexList_obj(
             return TCL_ERROR;
         }
 
+        for ( ; list != NULL ; list = list->next ) {
+            Tcl_Command element = Tcl_CreateObjCommand(
+                interp, "vertex", vertex_obj, (ClientData)list->vertex, NULL
+            );
+            Tcl_Obj *arg = Tcl_NewStringObj( "vertex", -1 );
+            Tcl_Obj *CONST ov[] = { objv[2], arg };
+            Tcl_EvalObjv( interp, 2, ov, 0 );
+        }
+
+        Tcl_ResetResult( interp );
+        return TCL_OK;
+    }
+
+    if ( Tcl_StringMatch(command, "destroy") ) {
+        if ( objc != 2 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "destroy" );
+            return TCL_ERROR;
+        }
+
+        list->destroy();
+
         Tcl_ResetResult( interp );
         return TCL_OK;
     }
