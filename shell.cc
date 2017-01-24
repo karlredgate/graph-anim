@@ -319,6 +319,96 @@ graph_cmd(
 /**
  */
 int
+VertexList_obj(
+    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
+) {
+    VertexList *list = (VertexList *)data;
+
+    if ( objc < 2 || objc > 3 ) {
+        Tcl_ResetResult( interp );
+        Tcl_WrongNumArgs( interp, 1, objv, "command [value]" );
+        return TCL_ERROR;
+    }
+    char *command = Tcl_GetStringFromObj( objv[1], NULL );
+
+    if ( Tcl_StringMatch(command, "reference") ) {
+        if ( objc != 2 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "reference" );
+            return TCL_ERROR;
+        }
+        Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(list)) );
+        return TCL_OK;
+    }
+
+    if ( Tcl_StringMatch(command, "insert") ) {
+        if ( objc != 3 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "insert [vertex]" );
+            return TCL_ERROR;
+        }
+
+        Vertex *v;
+        if ( Tcl_GetLongFromObj(interp,objv[2],(long*)&(v)) != TCL_OK ) {
+            return TCL_ERROR;
+        }
+        VertexList *that = new VertexList( v, list );
+
+        Tcl_Command token = Tcl_GetCommandFromObj( interp, objv[0] );
+        Tcl_CmdInfo info;
+        if ( Tcl_GetCommandInfoFromToken(token, &info) == 0 ) {
+            Tcl_SetResult( interp, (char *)"could not find list", TCL_STATIC );
+            return TCL_ERROR;
+        }
+        info.objClientData = (ClientData)that;
+        if ( Tcl_SetCommandInfoFromToken(token, &info) == 0 ) {
+            Tcl_SetResult( interp, (char *)"could not update list", TCL_STATIC );
+            return TCL_ERROR;
+        }
+
+        Tcl_ResetResult( interp );
+        return TCL_OK;
+    }
+
+    if ( Tcl_StringMatch(command, "map") ) {
+        if ( objc != 3 ) {
+            Tcl_ResetResult( interp );
+            Tcl_WrongNumArgs( interp, 1, objv, "map proc" );
+            return TCL_ERROR;
+        }
+
+        Tcl_ResetResult( interp );
+        return TCL_OK;
+    }
+
+    Tcl_SetResult( interp, (char *)"Unknown command for VertexList object", TCL_STATIC );
+    return TCL_OK;
+}
+
+/**
+ */
+int
+VertexList_cmd(
+    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
+) {
+    if ( objc != 2 ) {
+        Tcl_ResetResult( interp );
+        Tcl_WrongNumArgs( interp, 1, objv, "name" );
+        return TCL_ERROR;
+    }
+    char *name = Tcl_GetStringFromObj( objv[1], NULL );
+
+    VertexList *list = NULL;
+
+    Tcl_CreateObjCommand( interp, name, VertexList_obj, (ClientData)list, 0 );
+    Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(list)) );
+    return TCL_OK;
+}
+
+
+/**
+ */
+int
 VertexQueue_obj(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
 ) {
@@ -499,7 +589,8 @@ Graph_Init( Tcl_Interp *interp ) {
     Tcl_CreateObjCommand(interp, "graph",        graph_cmd,       (ClientData)0, NULL);
     Tcl_CreateObjCommand(interp, "vertex",       vertex_cmd,      (ClientData)0, NULL);
     Tcl_CreateObjCommand(interp, "VertexQueue",  VertexQueue_cmd, (ClientData)0, NULL);
-    Tcl_CreateObjCommand(interp, "Advice",     Advice_cmd,    (ClientData)0, NULL);
+    Tcl_CreateObjCommand(interp, "VertexList",   VertexList_cmd,  (ClientData)0, NULL);
+    Tcl_CreateObjCommand(interp, "Advice",       Advice_cmd,      (ClientData)0, NULL);
 
     Tcl_SetVar(interp, "tcl_rcFileName", "~/.graphrc", TCL_GLOBAL_ONLY);
     return TCL_OK;
