@@ -76,6 +76,10 @@ public:
     Edge * connect( Vertex * );
 };
 
+typedef Vertex *VertexTransform( Vertex * );
+typedef bool VertexPredicate( Vertex * );
+typedef long VertexReducer( long, Vertex * );
+
 /**
  * TODO - make members private and close the interface
  */
@@ -86,6 +90,10 @@ public:
     VertexList *previous;
     VertexList( Vertex *vertex, VertexList *next = 0 );
     virtual ~VertexList();
+    void each( VertexTransform * );
+    VertexList * map( VertexTransform * );
+    VertexList * filter( VertexPredicate * );
+    long reduce( long initial, VertexReducer *reducer );
     void destroy();
 };
 
