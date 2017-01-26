@@ -15,42 +15,20 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
  * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <unistd.h>
-#include <string>
+#include "VertexList.h"
+#include "Graph.h"
 
-#include "PointCut.h"
-#include "Aspect.h"
+#ifndef _VERTEXREDUCERS_H_
+#define _VERTEXREDUCERS_H_
 
-#ifndef _VERTEXLIST_H_
-#define _VERTEXLIST_H_
-
-class Vertex;
-
-typedef Vertex *VertexTransform( Vertex * );
-typedef bool VertexPredicate( Vertex * );
-typedef long VertexReducer( long, Vertex * );
-
-/**
- * TODO - make members private and close the interface
- */
-class VertexList {
-public:
-    Vertex *vertex;
-    VertexList *next;
-    VertexList *previous;
-    VertexList( Vertex *vertex, VertexList *next = 0 );
-    virtual ~VertexList();
-    VertexList * map( VertexTransform * );
-    VertexList * filter( VertexPredicate * );
-    long reduce( long initial, VertexReducer *reducer );
-    void destroy();
-};
+long count( long initial, Vertex *vertex );
 
 #endif
 

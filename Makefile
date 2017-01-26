@@ -16,6 +16,7 @@ OBJS += TCLTraceAdvice.o
 OBJS += Aspect.o
 OBJS += VertexList.o
 OBJS += VertexQueue.o
+OBJS += VertexReducers.o
 OBJS += Graph.o
 OBJS += ANN.o
 

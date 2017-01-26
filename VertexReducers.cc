@@ -21,37 +21,15 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <unistd.h>
-#include <string>
+#include "VertexList.h"
+#include "Graph.h"
 
-#include "PointCut.h"
-#include "Aspect.h"
-
-#ifndef _VERTEXLIST_H_
-#define _VERTEXLIST_H_
-
-class Vertex;
-
-typedef Vertex *VertexTransform( Vertex * );
-typedef bool VertexPredicate( Vertex * );
-typedef long VertexReducer( long, Vertex * );
-
+
 /**
- * TODO - make members private and close the interface
  */
-class VertexList {
-public:
-    Vertex *vertex;
-    VertexList *next;
-    VertexList *previous;
-    VertexList( Vertex *vertex, VertexList *next = 0 );
-    virtual ~VertexList();
-    VertexList * map( VertexTransform * );
-    VertexList * filter( VertexPredicate * );
-    long reduce( long initial, VertexReducer *reducer );
-    void destroy();
-};
-
-#endif
+long
+count( long initial, Vertex *_ ) {
+    return initial + 1;
+}
 
 /* vim: set autoindent expandtab sw=4 : */

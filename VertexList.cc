@@ -54,16 +54,6 @@ VertexList::destroy() {
 }
 
 /**
- */
-void
-VertexList::each( VertexTransform *transform ) {
-    // don't really want this - transform needs to create a new object
-    // this should not
-    transform( this->vertex );
-    if ( next != 0 ) next->each( transform );
-}
-
-/**
  * This one needs a copy constructor.  But what does that mean for
  * a vertex that contains nothing.
  */
@@ -102,10 +92,12 @@ VertexList::filter( VertexPredicate *predicate ) {
 long
 VertexList::reduce( long initial, VertexReducer *reducer ) {
     VertexList *dot = this;
+
     while ( dot != NULL ) {
-        initial += reducer( initial, dot->vertex );
+        initial = reducer( initial, dot->vertex );
         dot = dot->next;
     }
+
     return initial;
 }
 
