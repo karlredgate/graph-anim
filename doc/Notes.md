@@ -33,3 +33,16 @@ https://en.wikipedia.org/wiki/Advice_(programming)
 neural nets
 
 tie to Electron for better UI
+
+https://en.wikipedia.org/wiki/Map_(higher-order_function)
+https://en.wikipedia.org/wiki/Higher-order_function
+https://en.wikipedia.org/wiki/Filter_(higher-order_function)
+https://en.wikipedia.org/wiki/Guard_(computer_science)
+https://en.wikipedia.org/wiki/List_comprehension
+https://en.wikipedia.org/wiki/Fold_(higher-order_function)
+https://en.wikipedia.org/wiki/Polygamma_function
+https://en.wikipedia.org/wiki/Window_function
+https://en.wikipedia.org/wiki/Production_function
+https://en.wikipedia.org/wiki/Apply
+
+<!-- vim: set autoindent expandtab sw=4 syntax=markdown: -->
