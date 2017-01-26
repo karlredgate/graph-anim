@@ -31,6 +31,8 @@
 #define _GRAPH_H_
 
 class Vertex;
+class VertexList;
+class VertexQueue;
 class Edge;
 
 class Edge : public Aspect {
@@ -74,41 +76,6 @@ public:
     virtual void visit();
     void reset();
     Edge * connect( Vertex * );
-};
-
-typedef Vertex *VertexTransform( Vertex * );
-typedef bool VertexPredicate( Vertex * );
-typedef long VertexReducer( long, Vertex * );
-
-/**
- * TODO - make members private and close the interface
- */
-class VertexList {
-public:
-    Vertex *vertex;
-    VertexList *next;
-    VertexList *previous;
-    VertexList( Vertex *vertex, VertexList *next = 0 );
-    virtual ~VertexList();
-    void each( VertexTransform * );
-    VertexList * map( VertexTransform * );
-    VertexList * filter( VertexPredicate * );
-    long reduce( long initial, VertexReducer *reducer );
-    void destroy();
-};
-
-class VertexQueue {
-private:
-    VertexList *head;
-    VertexList *tail;
-public:
-    VertexQueue();
-    virtual ~VertexQueue();
-
-    void enqueue( Vertex *vertex );
-    Vertex * dequeue();
-    bool is_empty();
-    bool not_empty();
 };
 
 class Graph : public Aspect {

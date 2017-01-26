@@ -26,6 +26,9 @@
 #include "platform_tcl.h"
 
 #include "Graph.h"
+#include "VertexList.h"
+#include "VertexQueue.h"
+
 #include "TCLTraceAdvice.h"
 
 /**

@@ -25,6 +25,8 @@
 using namespace std;
 
 #include "Graph.h"
+#include "VertexList.h"
+#include "VertexQueue.h"
 
 /**
  */
@@ -93,136 +95,6 @@ Vertex::connect( Vertex *v ) {
     e->next = edge;
     edge = e;
     return e;
-}
-
-/**
- */
-VertexList::VertexList( Vertex *vertex, VertexList *next )
- : vertex(vertex), next(next), previous(0)
-{
-    if ( next == 0 ) return;
-    next->previous = this;
-}
-
-/**
- * Deleting the VertexList just deletes the list, not the
- * vertices contained in the list.
- */
-VertexList::~VertexList() {
-    if ( next != 0 ) delete next;
-}
-
-/**
- */
-void
-VertexList::destroy() {
-    if ( next != 0 ) next->destroy();
-    delete vertex;
-}
-
-/**
- */
-void
-VertexList::each( VertexTransform *transform ) {
-    // don't really want this - transform needs to create a new object
-    // this should not
-    transform( this->vertex );
-    if ( next != 0 ) next->each( transform );
-}
-
-/**
- * This one needs a copy constructor.  But what does that mean for
- * a vertex that contains nothing.
- */
-VertexList *
-VertexList::map( VertexTransform *transform ) {
-    VertexList *that = NULL;
-    // that = this->clone();
-    transform( that->vertex );
-    if ( next != 0 ) {
-        that->next = NULL;
-    }
-    return that;
-}
-
-/**
- * Return a list of vertices for which predicate evaluates to true.
- * The vertices are not cloned, they are linked in the new list.
- * The list is a new list.
- */
-VertexList *
-VertexList::filter( VertexPredicate *predicate ) {
-    VertexList *dot = this;
-
-    if ( dot == NULL ) return NULL;
-    if ( dot->next == NULL ) {
-        if ( predicate(dot->vertex) == false ) return NULL;
-        return new VertexList( dot->vertex );
-    }
-    VertexList *that = dot->next->filter( predicate );
-    if ( predicate(dot->vertex) == false ) return that;
-    return new VertexList( dot->vertex, that );
-}
-
-/**
- */
-long
-VertexList::reduce( long initial, VertexReducer *reducer ) {
-    VertexList *dot = this;
-    while ( dot != NULL ) {
-        initial += reducer( initial, dot->vertex );
-        dot = dot->next;
-    }
-    return initial;
-}
-
-VertexQueue::VertexQueue()
-  : head(0), tail(0)
-{ }
-
-VertexQueue::~VertexQueue() {
-    if ( head != 0 ) delete head;
-}
-
-void
-VertexQueue::enqueue( Vertex *vertex ) {
-    VertexList *list = new VertexList( vertex, head );
-    head = list;
-    if ( tail == 0 ) tail = head;
-}
-
-Vertex *
-VertexQueue::dequeue() {
-    if ( is_empty() ) return 0;
-
-    VertexList *last = tail;
-
-    if ( head == tail ) {
-        head = 0;
-        tail = 0;
-        goto done;
-    }
-
-    tail = last->previous;
-    tail->next = 0;
-    last->previous = 0;
-
-done:
-    Vertex *v = last->vertex;
-    last->next = 0;
-    delete last;
-
-    return v;
-}
-
-bool
-VertexQueue::is_empty() {
-    return head == 0;
-}
-
-bool
-VertexQueue::not_empty() {
-    return head != 0;
 }
 
 /**
