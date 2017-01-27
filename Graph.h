@@ -39,7 +39,6 @@ class Edge : public Aspect {
 private:
     int _weight;
 public:
-    Vertex *root;
     Vertex *vertex;
     Edge *next;
 
@@ -82,8 +81,6 @@ private:
     int tick;
 
 public:
-    Vertex *root;
-    // This should be a vertexlist
     VertexList *vertices;
     bool acyclic;
 
