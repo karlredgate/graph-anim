@@ -101,4 +101,16 @@ VertexList::reduce( long initial, VertexReducer *reducer ) {
     return initial;
 }
 
+/**
+ */
+void
+VertexList::each( void * arg, VertexProc *proc ) {
+    VertexList *dot = this;
+
+    while ( dot != NULL ) {
+        proc( arg, dot->vertex );
+        dot = dot->next;
+    }
+}
+
 /* vim: set autoindent expandtab sw=4 : */

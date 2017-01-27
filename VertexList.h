@@ -35,6 +35,7 @@ class Vertex;
 typedef Vertex *VertexTransform( Vertex * );
 typedef bool VertexPredicate( Vertex * );
 typedef long VertexReducer( long, Vertex * );
+typedef void VertexProc( void *, Vertex * );
 
 /**
  * TODO - make members private and close the interface
@@ -49,6 +50,7 @@ public:
     VertexList * map( VertexTransform * );
     VertexList * filter( VertexPredicate * );
     long reduce( long initial, VertexReducer *reducer );
+    void each( void * arg, VertexProc *proc );
     void destroy();
 };
 

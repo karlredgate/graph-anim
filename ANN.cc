@@ -62,17 +62,16 @@ Layer::Layer() : Graph() { }
 Layer::~Layer() {
 }
 
-void *
+static void
 _connect( void *parent, Vertex *child ) {
     Vertex *_parent = (Vertex *)parent;
     _parent->connect( child );
-    return parent;
 }
 
 bool
 Layer::connect( Layer *target ) {
     for ( VertexList *v = vertices ; v != NULL ; v = v->next ) {
-        // target->vertices->reduce( v->vertex, _connect );
+        target->vertices->each( v->vertex, _connect );
     }
     return true;
 }
