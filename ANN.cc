@@ -25,9 +25,12 @@
 using namespace std;
 
 #include "Graph.h"
+#include "VertexList.h"
 #include "ANN.h"
 
 /**
+ * Incoming
+ * Axon would be outgoing
  */
 Dendrite::Dendrite()
   : Edge()
@@ -59,9 +62,28 @@ Layer::Layer() : Graph() { }
 Layer::~Layer() {
 }
 
+void *
+_connect( void *parent, Vertex *child ) {
+    Vertex *_parent = (Vertex *)parent;
+    _parent->connect( child );
+    return parent;
+}
+
 bool
 Layer::connect( Layer *target ) {
+    for ( VertexList *v = vertices ; v != NULL ; v = v->next ) {
+        // target->vertices->reduce( v->vertex, _connect );
+    }
     return true;
+}
+
+/**
+ */
+Perceptron::Perceptron() {
+    // Construct layers
+}
+
+Perceptron::~Perceptron() {
 }
 
 /* vim: set autoindent expandtab sw=4 : */

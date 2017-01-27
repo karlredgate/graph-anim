@@ -59,7 +59,14 @@ public:
 
 /**
  */
-class NeuralNet : public Graph {
+class Perceptron {
+private:
+    Layer *in;
+    Layer *hidden;
+    Layer *out;
+public:
+    Perceptron();
+    virtual ~Perceptron();
 };
 
 #endif
