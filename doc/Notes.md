@@ -45,4 +45,16 @@ https://en.wikipedia.org/wiki/Window_function
 https://en.wikipedia.org/wiki/Production_function
 https://en.wikipedia.org/wiki/Apply
 
+Node
+----
+
+https://nodejs.org/api/addons.html
+https://github.com/kkaefer/node-cpp-modules
+http://syskall.com/how-to-write-your-own-native-nodejs-extension
+https://github.com/joyent/v8plus
+http://stackoverflow.com/questions/10471459/is-it-possible-to-write-a-node-js-extension-in-c-not-c#10471604
+
+for large perceptrons - use mmap of file that has been initialized
+use my memory allocation
+
 <!-- vim: set autoindent expandtab sw=4 syntax=markdown: -->
