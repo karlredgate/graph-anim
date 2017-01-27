@@ -27,6 +27,7 @@ using namespace std;
 #include "Graph.h"
 #include "VertexList.h"
 #include "VertexQueue.h"
+#include "EdgeList.h"
 
 /**
  */
@@ -54,7 +55,7 @@ Edge::weight() {
 /**
  */
 Vertex::Vertex()
-    : edge(0), tedge(0), parent(0),
+    : edges(0), tedge(0), parent(0),
       discovered(false), explored(false),
       distance(0), finished(0)
 {
@@ -62,7 +63,7 @@ Vertex::Vertex()
 }
 
 Vertex::~Vertex() {
-    if ( edge != 0 ) delete edge;
+    if ( edges != 0 ) delete edges;
 }
 
 int Vertex::serial = 0;
@@ -92,8 +93,7 @@ void Vertex::reset() {
 Edge *
 Vertex::connect( Vertex *v ) {
     Edge *e = new Edge( v );
-    e->next = edge;
-    edge = e;
+    edges = new EdgeList( e, edges );
     return e;
 }
 
@@ -151,7 +151,9 @@ void Graph::BFS( Vertex *start ) {
         u->pointcut._enter_();
         u->visit();
 
-        for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
+        for ( EdgeList *edges = u->edges ; edges != NULL ; edges = edges->next ) {
+            Edge *edge = edges->edge;
+
             edge->pointcut._enter_();
             edge->visit();
 
@@ -193,7 +195,9 @@ void Graph::DFS( Vertex *u ) {
     u->distance = tick;
     u->visit();
 
-    for ( Edge *edge = u->edge ; edge != NULL ; edge = edge->next ) {
+    for ( EdgeList *edges = u->edges ; edges != NULL ; edges = edges->next ) {
+        Edge *edge = edges->edge;
+
         edge->pointcut._enter_();
         edge->visit();
 
@@ -241,7 +245,9 @@ Graph::TSort( Vertex *u, VertexList *list ) {
     u->discovered = true;
     u->visit();
 
-    for ( Edge *edge = u->edge ; edge != 0 ; edge = edge->next ) {
+    for ( EdgeList *edges = u->edges ; edges != NULL ; edges = edges->next ) {
+        Edge *edge = edges->edge;
+
         edge->pointcut._enter_();
         edge->visit();
 

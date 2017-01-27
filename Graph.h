@@ -34,6 +34,7 @@ class Vertex;
 class VertexList;
 class VertexQueue;
 class Edge;
+class EdgeList;
 
 class Edge : public Aspect {
 private:
@@ -60,7 +61,7 @@ private:
     int _id;
 
 public:
-    Edge *edge;
+    EdgeList *edges;
     Edge *tedge;
     Vertex *parent;
     bool discovered, explored;

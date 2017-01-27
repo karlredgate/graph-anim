@@ -14,6 +14,7 @@ OBJS += PointCut.o
 OBJS += Advice.o
 OBJS += TCLTraceAdvice.o
 OBJS += Aspect.o
+OBJS += EdgeList.o
 OBJS += VertexList.o
 OBJS += VertexQueue.o
 OBJS += VertexReducers.o
