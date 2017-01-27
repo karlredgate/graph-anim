@@ -39,6 +39,7 @@ ANN.o : ANN.h
 test: graph
 	./graph tests/simple.tcl
 	./graph tests/vertexlist.tcl
+	./graph tests/tsort.tcl
 
 tk_test: graph
 	./tk_graph g.tcl

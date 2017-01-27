@@ -61,7 +61,6 @@ private:
     int _id;
 
 public:
-    Vertex *next;
     Edge *edge;
     Edge *tedge;
     Vertex *parent;
@@ -85,7 +84,7 @@ private:
 public:
     Vertex *root;
     // This should be a vertexlist
-    Vertex *vertices;
+    VertexList *vertices;
     bool acyclic;
 
     Graph();

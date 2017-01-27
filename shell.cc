@@ -289,10 +289,14 @@ graph_obj(
         }
         g->reset();
         VertexList *list = g->TSort( v, 0 );
+        // need to return this as a list of the vertices
+        // but what - the names are not known, just the addresses
+
         if ( g->acyclic == false ) {
             Tcl_SetResult( interp, (char *)"cycle detected", TCL_STATIC );
             return TCL_ERROR;
         }
+
         return TCL_OK;
     }
 

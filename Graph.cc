@@ -54,7 +54,7 @@ Edge::weight() {
 /**
  */
 Vertex::Vertex()
-    : next(0), edge(0), tedge(0), parent(0),
+    : edge(0), tedge(0), parent(0),
       discovered(false), explored(false),
       distance(0), finished(0)
 {
@@ -102,25 +102,20 @@ Vertex::connect( Vertex *v ) {
 Graph::Graph() : Aspect(), tick(0), vertices(0) { }
 
 Graph::~Graph() {
-    Vertex *v = vertices;
-    while ( v ) {
-        Vertex *u = v->next;
-        delete v;
-        v = u;
-    }
+    vertices->destroy();
+    delete vertices;
 }
 
 void Graph::add( Vertex *vertex ) {
-    vertex->next = vertices;
-    vertices = vertex;
+    vertices = new VertexList( vertex, vertices );
 }
 
 void Graph::reset() {
-    Vertex *v = vertices;
+    VertexList *list = vertices;
 
-    while ( v != 0 ) {
-        v->reset();
-        v = v->next;
+    while ( list != NULL ) {
+        list->vertex->reset();
+        list = list->next;
     }
 
     acyclic = true;
@@ -130,9 +125,9 @@ void Graph::reset() {
 void Graph::BFS() {
     reset();
 
-    for ( Vertex *v = vertices ; v != NULL ; v = v->next ) {
-        if ( v->discovered ) continue;
-        BFS( v );
+    for ( VertexList *v = vertices ; v != NULL ; v = v->next ) {
+        if ( v->vertex->discovered ) continue;
+        BFS( v->vertex );
     }
 }
 
@@ -183,9 +178,9 @@ void Graph::BFS( Vertex *start ) {
 void Graph::DFS() {
     reset();
 
-    for ( Vertex *v = vertices ; v != NULL ; v = v->next ) {
-        if ( v->discovered ) continue;
-        DFS( v );
+    for ( VertexList *v = vertices ; v != NULL ; v = v->next ) {
+        if ( v->vertex->discovered ) continue;
+        DFS( v->vertex );
     }
 }
 
@@ -228,7 +223,8 @@ void Graph::DFS( Vertex *u ) {
 VertexList *
 Graph::TSort() {
     reset();
-    return TSort(vertices, 0);
+    // what about the other roots
+    return TSort(vertices->vertex, 0);
 }
 
 VertexList *
