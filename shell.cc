@@ -24,88 +24,7 @@
 #include <iostream>
 
 #include "platform_tcl.h"
-
-#include "Graph.h"
-#include "VertexList.h"
-#include "VertexQueue.h"
-
-#include "TCLTraceAdvice.h"
-
 #include "AppInit.h"
-
-/**
- */
-int
-Advice_obj(
-    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
-) {
-    TCLTraceAdvice *a = (TCLTraceAdvice *)data;
-
-    if ( objc == 1 ) {
-        Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(a)) );
-        return TCL_OK;
-    }
-
-    if ( objc < 2 || objc > 3 ) {
-        Tcl_ResetResult( interp );
-        Tcl_WrongNumArgs( interp, 1, objv, "command [value]" );
-        return TCL_ERROR;
-    }
-    char *command = Tcl_GetStringFromObj( objv[1], NULL );
-
-    if ( Tcl_StringMatch(command, "enter") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "enter script" );
-            return TCL_ERROR;
-        }
-        a->_enter_( objv[2] );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "leave") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "leave script" );
-            return TCL_ERROR;
-        }
-        a->_leave_( objv[2] );
-        return TCL_OK;
-    }
-
-    if ( Tcl_StringMatch(command, "visit") ) {
-        if ( objc != 3 ) {
-            Tcl_ResetResult( interp );
-            Tcl_WrongNumArgs( interp, 1, objv, "visit script" );
-            return TCL_ERROR;
-        }
-        a->_visit_( objv[2] );
-        return TCL_OK;
-    }
-
-    Tcl_SetResult( interp, (char *)"Unknown command for Advice object", TCL_STATIC );
-    return TCL_OK;
-}
-
-/**
- */
-int
-Advice_cmd(
-    ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
-) {
-    if ( objc != 2 ) {
-        Tcl_ResetResult( interp );
-        Tcl_WrongNumArgs( interp, 1, objv, "name" );
-        return TCL_ERROR;
-    }
-    char *name = Tcl_GetStringFromObj( objv[1], NULL );
-
-    TCLTraceAdvice *a = new TCLTraceAdvice( interp );
-
-    Tcl_CreateObjCommand( interp, name, Advice_obj, (ClientData)a, 0 );
-    Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(a)) );
-    return TCL_OK;
-}
 
 /**
  */
@@ -131,8 +50,6 @@ Graph_Init( Tcl_Interp *interp ) {
     if ( Tcl_Init(interp) == TCL_ERROR ) {
         return TCL_ERROR;
     }
-
-    Tcl_CreateObjCommand(interp, "Advice",       Advice_cmd,      (ClientData)0, NULL);
 
     if ( Tcl_CallAppInitChain(interp) == false ) {
         Tcl_StaticSetResult( interp, "AppInit failed" );
