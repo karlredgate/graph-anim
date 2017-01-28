@@ -22,6 +22,7 @@ OBJS += Graph.o
 OBJS += ANN.o
 OBJS += TCL_Graph.o
 OBJS += TCL_Aspect.o
+OBJS += TCL_ANN.o
 OBJS += AppInit.o
 
 tk_graph: $(OBJS) tk_graph.o
