@@ -20,6 +20,7 @@ OBJS += VertexQueue.o
 OBJS += VertexReducers.o
 OBJS += Graph.o
 OBJS += ANN.o
+OBJS += Activations.o
 OBJS += TCL_Graph.o
 OBJS += TCL_Aspect.o
 OBJS += TCL_ANN.o
