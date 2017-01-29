@@ -52,7 +52,8 @@ Step::operator () ( float net ) {
 
 /**
  */
-Ramp::Ramp() : Activation()
+Ramp::Ramp( float epsilon, float lower, float upper )
+    : Step(lower,upper), epsilon(epsilon)
 { }
 
 Ramp::~Ramp() {
@@ -60,7 +61,10 @@ Ramp::~Ramp() {
 
 float
 Ramp::operator () ( float net ) {
-    return net;
+    float x = net - threshold();
+    if ( x >= epsilon ) return upper;
+    if ( x <= epsilon ) return lower;
+    return x;
 }
 
 /* vim: set autoindent expandtab sw=4 : */

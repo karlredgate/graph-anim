@@ -72,9 +72,11 @@ public:
 
 /**
  */
-class Ramp : public Activation {
+class Ramp : public Step {
+protected:
+    float epsilon;
 public:
-    Ramp();
+    Ramp( float epsilon, float lower, float upper );
     virtual ~Ramp();
     virtual float operator () ( float net );
 };
