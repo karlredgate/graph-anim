@@ -54,6 +54,7 @@ class Layer : public Graph {
 public:
     bool connect( Layer * );
     Layer();
+    Layer( int );
     virtual ~Layer();
 };
 

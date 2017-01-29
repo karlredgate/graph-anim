@@ -59,6 +59,14 @@ Neuron::~Neuron() {
  */
 Layer::Layer() : Graph() { }
 
+/**
+ */
+Layer::Layer( int neurons ) : Graph() {
+    for ( int i = 0 ; i < neurons ; i++ ) {
+        add( new Vertex() );
+    }
+}
+
 Layer::~Layer() {
 }
 

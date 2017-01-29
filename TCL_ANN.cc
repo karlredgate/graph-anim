@@ -129,14 +129,21 @@ int
 Layer_cmd(
     ClientData data, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]
 ) {
-    if ( objc != 2 ) {
+    if ( (objc < 2) or (objc > 3) ) {
         Tcl_ResetResult( interp );
-        Tcl_WrongNumArgs( interp, 1, objv, "name" );
+        Tcl_WrongNumArgs( interp, 1, objv, "name [neuron-count]" );
         return TCL_ERROR;
     }
     char *name = Tcl_GetStringFromObj( objv[1], NULL );
 
-    Layer *q = new Layer();
+    int neuron_count;
+    if ( objc == 3 ) {
+        if ( Tcl_GetIntFromObj(interp,objv[2],&neuron_count) != TCL_OK ) {
+            return TCL_ERROR;
+        }
+    }
+
+    Layer *q = new Layer( neuron_count );
 
     Tcl_CreateObjCommand( interp, name, Layer_obj, (ClientData)q, 0 );
     Tcl_SetObjResult( interp, Tcl_NewLongObj((long)(q)) );
