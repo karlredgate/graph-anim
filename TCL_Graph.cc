@@ -538,7 +538,7 @@ VertexQueue_cmd(
 /**
  */
 static bool
-Module_Init( Tcl_Interp *interp ) {
+Graph_Module( Tcl_Interp *interp ) {
     Tcl_Command command;
 
     command = Tcl_CreateObjCommand(interp, "graph",        graph_cmd,       (ClientData)0, NULL);
@@ -556,6 +556,6 @@ Module_Init( Tcl_Interp *interp ) {
     return true;
 }
 
-app_init( Module_Init );
+app_init( Graph_Module );
 
 /* vim: set autoindent expandtab sw=4 : */
