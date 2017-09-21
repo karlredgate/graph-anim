@@ -50,5 +50,9 @@ test: graph
 tk_test: graph
 	./tk_graph g.tcl
 
+clean_npm:
+	rm -rf node_modules
+
 clean:
 	rm -f *.o graph tk_graph
+	rm -rf build

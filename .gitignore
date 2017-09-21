@@ -17,3 +17,5 @@
 *.app
 
 /graph
+/build
+/node_modules
