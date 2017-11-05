@@ -32,7 +32,7 @@ using namespace std;
 /**
  */
 Edge::Edge( Vertex *vertex )
-  : vertex(vertex), next(0), _weight(0)
+  : _weight(0), vertex(vertex), next(0)
 { }
 
 Edge::~Edge() {
