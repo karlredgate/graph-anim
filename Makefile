@@ -17,6 +17,7 @@ OBJS += Aspect.o
 OBJS += EdgeList.o
 OBJS += VertexList.o
 OBJS += VertexQueue.o
+OBJS += VertexHeap.o
 OBJS += VertexReducers.o
 OBJS += Graph.o
 OBJS += ANN.o
