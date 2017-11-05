@@ -17,6 +17,7 @@ Persistent<Function> EdgeProxy::constructor;
 
 EdgeProxy::EdgeProxy( double value )
 : value(value) {
+    edge = new Edge();
 }
 
 EdgeProxy::~EdgeProxy() {
