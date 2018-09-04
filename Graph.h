@@ -101,21 +101,6 @@ public:
     VertexList *TSort();
 };
 
-class MaxHeap {
-public:
-    class Element {
-    public:
-        int key;
-        Vertex *vertex;
-        Element( Vertex *vertex ) : vertex(vertex) {}
-    };
-    Element **elements;
-
-    MaxHeap( int size ) {
-        elements = new Element *[size];
-    }
-};
-
 #endif
 
 /* vim: set autoindent expandtab sw=4 : */

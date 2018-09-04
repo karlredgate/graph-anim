@@ -34,6 +34,22 @@
 #define RIGHT_CHILD_INDEX(parent)  ((parent*2)+2)
 #define PARENT_INDEX(child)        ((child-1)>>1)
 
+VertexHeap::VertexHeap()
+  : capacity(CAPACITY), size(0)
+{
+    items = (Vertex **) calloc( capacity, sizeof (Vertex *) );
+}
+
+VertexHeap::~VertexHeap() {
+    if ( items != 0 ) free(items);
+}
+
+VertexMinHeap::VertexMinHeap( VertexComparator compare )
+  : VertexHeap(), compare(compare)
+{ }
+
+VertexMinHeap::~VertexMinHeap() { }
+
 Vertex *
 VertexMinHeap::left_child( int parent ) const {
     return items[ LEFT_CHILD_INDEX(parent) ];
@@ -104,16 +120,6 @@ VertexMinHeap::bubble() {
     }
 }
 
-VertexMinHeap::VertexMinHeap( VertexComparator compare )
-  : compare(compare), capacity(CAPACITY), size(0)
-{
-    items = (Vertex **) calloc( capacity, sizeof (Vertex *) );
-}
-
-VertexMinHeap::~VertexMinHeap() {
-    if ( items != 0 ) free(items);
-}
-
 void
 VertexMinHeap::add( Vertex *vertex ) {
     items[size++] = vertex;

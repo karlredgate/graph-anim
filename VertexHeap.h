@@ -21,8 +21,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "PointCut.h"
-#include "Aspect.h"
 #include "VertexComparator.h"
 
 #ifndef _VERTEXHEAP_H_
@@ -31,12 +29,19 @@
 class Vertex;
 class VertexList;
 
-class VertexMinHeap {
-private:
-    VertexComparator compare;
+class VertexHeap {
+protected:
     int capacity;
     int size;
     Vertex **items;
+public:
+    VertexHeap();
+    virtual ~VertexHeap();
+};
+
+class VertexMinHeap : public VertexHeap {
+private:
+    VertexComparator compare;
 
     int last_index() const;
     bool has_left_child( int ) const;
